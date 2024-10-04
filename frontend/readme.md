@@ -1,1 +1,1 @@
-This folder is for front-end develop
+this folder is for frontend develop
