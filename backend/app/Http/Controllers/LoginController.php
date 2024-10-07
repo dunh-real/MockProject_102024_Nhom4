@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class LoginController extends Controller
 {
@@ -13,13 +13,17 @@ class LoginController extends Controller
         $password = $request->input('password');
         if($username == "admin" && $password == "123456")
         {
-            return response()->json($request);
+            return response()->json([
+                "status"=> "success",
+                "message"=> "Login successfully!"
+            ], Response::HTTP_OK);
         }
         else
         {
             return response()->json([
-                'msg' => 'Username or password is not true'
-            ]);
+                "status"=> "error",
+                'message' => 'Username or password is not true'
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 }
