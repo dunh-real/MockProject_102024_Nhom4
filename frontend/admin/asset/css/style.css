@@ -1,0 +1,276 @@
+/* Global styles */
+body {
+  font-family: "Roboto Condensed", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: unset;
+}
+
+:root {
+  --main-bg-color: #f7bd8f;
+  --sub-bg-color: #ffffffde;
+  --color-text: #fff;
+}
+
+/* Sidebar styles */
+.admin {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  width: 100%;
+  height: 100%;
+}
+
+.sidebar,
+.sidebar-mobile {
+  background-color: var(--main-bg-color);
+  color: var(--color-text);
+  padding: 20px;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.sidebar h2,
+.sidebar-mobile h2 {
+  text-align: center;
+  margin: 24px 0px;
+  font-size: 26px;
+}
+
+.sidebar ul,
+.sidebar-mobile ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar ul li,
+.sidebar-mobile ul li {
+  margin: 10px 0;
+}
+
+.sidebar ul li a,
+.sidebar-mobile ul li a {
+  color: var(--sub-bg-color);
+  font-weight: 550;
+  text-decoration: none;
+  display: block;
+  padding: 12px;
+  border-radius: 7px;
+}
+
+.sidebar ul li a:hover,
+.sidebar-mobile ul li a:hover {
+  color: var(--color-text);
+  background-color: #e59454;
+  border-radius: 7px;
+  transition: 0.3s;
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  animation: fadeIn linear 0.3s;
+}
+
+.sidebar-mobile {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 300px;
+  max-width: 100%;
+  transform: translateX(-100%);
+  transition: transform linear 0.2s, opacity linear 0.2s;
+  z-index: 2;
+}
+
+.sidebar__input:checked ~ .sidebar-overlay {
+  display: block;
+}
+
+.sidebar__input:checked ~ .sidebar-mobile {
+    transform: translateX(0%);
+}
+
+/* Main content styles */
+.main-content {
+  flex-grow: 1;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+/* Header styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #000;
+}
+
+.search-box {
+  border: 1px solid #ccc;
+  border-radius: 50px;
+}
+
+.search-box form {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.search-box button {
+  border: none;
+  background-color: transparent;
+  padding: 0px 10px;
+  margin: 0px 5px;
+}
+
+.search-box .search-field input {
+  padding: 10px;
+  width: 300px;
+  outline: none;
+  border: none;
+  border-radius: 50px;
+}
+
+.profile-icon img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin: 0 20px;
+}
+
+.profile-info {
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+
+.profile-info-iner {
+  display: none;
+  background-color: var(--main-bg-color);
+  border-radius: 10px;
+  padding: 10px 10px;
+  position: absolute;
+  top: 30px;
+  left: -60px;
+  z-index: 1;
+}
+
+.profile-info:hover .profile-info-iner {
+  display: block;
+}
+
+.profile-info-iner ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profile-info-iner ul li {
+  text-align: right;
+}
+
+.profile-info-iner ul li a {
+  color: var(--sub-bg-color);
+  text-decoration: none;
+  display: block;
+  padding: 4px 12px;
+  margin: 4px 0px;
+  border-radius: 7px;
+}
+
+.profile-info-iner ul li a:hover {
+  color: var(--color-text);
+  background-color: #e59454;
+  border-radius: 7px;
+  transition: 0.3s;
+}
+
+/* Content body styles */
+.content-body {
+  background-color: var(--sub-bg-color);
+  margin: 20px;
+  border-radius: 8px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.title h1 {
+  padding-bottom: 10px;
+  font-weight: 500;
+  position: relative;
+}
+
+.title h1::after {
+  position: absolute;
+  display: block;
+  content: "";
+  height: 5px;
+  width: 10vw;
+  background-color: var(--main-bg-color);
+  bottom: 6px;
+  left: 3px;
+}
+
+/* Responsive adjustments */
+.toggle {
+  display: none;
+  padding: 20px;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 768px) {
+  .admin {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .sidebar-mobile {
+    display: block;
+  }
+
+  .toggle {
+    display: block;
+  }
+
+  .main-content {
+    padding: 10px;
+  }
+
+  .search-box .search-field input {
+    width: 100%;
+  }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

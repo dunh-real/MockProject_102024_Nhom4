@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, maximum-scale=1.0, initial-scale=1.0, user-scalable=no"
+    />
+    <title>Dashboard - Admin</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="asset/css/style.css" />
+  </head>
+
+  <body>
+    <div class="admin">
+      <!-- Sidebar -->
+      <div>
+        <nav class="sidebar">
+          <h2>Mock Care</h2>
+          <ul>
+            <li>
+              <a href="#"
+                ><img
+                  src="asset/img/icon/icon_dashboard.svg"
+                />&nbsp;&nbsp;Dashboard</a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><img
+                  src="asset/img/icon/icon_employees.svg"
+                />&nbsp;&nbsp;Employee management</a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><img
+                  src="asset/img/icon/icon_budget.svg"
+                />&nbsp;&nbsp;Financial management</a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><img
+                  src="asset/img/icon/icon_houses.svg"
+                />&nbsp;&nbsp;Property management</a
+              >
+            </li>
+            <li>
+              <a href="#"
+                ><img
+                  src="asset/img/icon/icon_resident.svg"
+                />&nbsp;&nbsp;Resident management</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Header with search and login icon -->
+        <div class="header">
+            <div>
+              <label for="sidebar-mobile-input">
+                <img class="toggle" src="asset/img/icon/icon_menu.svg" alt="Menu Icon" />
+              </label>
+            </div>
+            <div class="search-box">
+              <form action="#">
+                <button type="submit">
+                  <img src="asset/img/icon/icon_search.svg" />
+                </button>
+                <div class="search-field">
+                  <input type="text" placeholder="Search..." />
+                </div>
+              </form>   
+            </div>
+            <div class="profile-info">
+              <span>Admin</span>
+              <div class="profile-icon">
+                <img src="asset/img/admin.png" alt="Login Icon" />
+              </div>
+              <div class="profile-info-iner">
+                <ul>
+                  <li>
+                    <a href="#">My profile <img src="asset/img/icon/icon_person.svg" /></a>
+                  </li>
+                  <li>
+                    <a href="#">Settings <img src="asset/img/icon/icon_setting.svg" /></a>
+                  </li>
+                  <li>
+                    <a href="#">Log out <img src="asset/img/icon/icon_logout.svg" /></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Sidebar Mobile -->
+          <input type="checkbox" class="sidebar__input" id="sidebar-mobile-input" hidden>
+          <label for="sidebar-mobile-input" class="sidebar-overlay"></label>
+          <nav class="sidebar-mobile">
+            <h2>Mock Care</h2>
+            <ul>
+              <li>
+                <a href="#"><img src="asset/img/icon/icon_dashboard.svg" />&nbsp;&nbsp;Dashboard</a>
+              </li>
+              <li>
+                <a href="#"><img src="asset/img/icon/icon_employees.svg" />&nbsp;&nbsp;Employee management</a>
+              </li>
+              <li>
+                <a href="#"><img src="asset/img/icon/icon_budget.svg" />&nbsp;&nbsp;Financial management</a>
+              </li>
+              <li>
+                <a href="#"><img src="asset/img/icon/icon_houses.svg" />&nbsp;&nbsp;Property management</a>
+              </li>
+              <li>
+                <a href="#"><img src="asset/img/icon/icon_resident.svg" />&nbsp;&nbsp;Resident management</a>
+              </li>
+            </ul>
+          </nav>
+
+        <!-- Main body content -->
+        <div class="content-body">
+          <div class="title">
+            <h1>Dashboard</h1>
+          </div>
+
+          <div class="content">
+            <p>Welcome to your dashboard</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
