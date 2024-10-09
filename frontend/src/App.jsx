@@ -1,14 +1,11 @@
-import { useState } from 'react'
-import './App.css'
-import Login from './Login/Login'
-
-
+import Login from "./Login/Login";
+import DetailsApartment from "./Apartments/DetailsApartment";
+import Apartment from "./Apartments/Apartment";
+import './index.css'
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (    
-    <Login/>
-  )
+  return (
+    <DetailsApartment />
+  );
 }
 
-export default App
+export default App;
