@@ -88,7 +88,7 @@ a {
 }
 
 .sidebar-mobile {
-  display: block;
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -126,9 +126,14 @@ a {
   border-bottom: 1px solid #000;
 }
 
+.header .title {
+  display: none;
+}
+
 .search-box {
   border: 1px solid #ccc;
   border-radius: 50px;
+  background-color: #fff;
 }
 
 .search-box form {
@@ -152,6 +157,10 @@ a {
   border-radius: 50px;
 }
 
+.profile-info {
+  cursor: pointer;
+}
+
 .profile-icon img {
   width: 30px;
   height: 30px;
@@ -172,7 +181,7 @@ a {
   padding: 10px 10px;
   position: absolute;
   top: 30px;
-  left: -60px;
+  left: -50px;
   z-index: 1;
 }
 
@@ -244,11 +253,11 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .sidebar {
+  .sidebar, .header .search-box{
     display: none;
   }
 
-  .sidebar-mobile {
+  .sidebar-mobile, .header .title {
     display: block;
   }
 
