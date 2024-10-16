@@ -10,7 +10,8 @@ import {
     // Shield,
     Settings2,
     Category2,
-    Package
+    Package,
+    File3d
   } from "tabler-icons-react";
   
   interface MenuItem {
@@ -84,6 +85,12 @@ import {
       icon: <Users size={18} strokeWidth={2} />,
       title: "Users",
       link: "/users",
+      isOpen: false,
+    },
+    {
+      icon: <File3d size={18} strokeWidth={2} />,
+      title: "Legal documents",
+      link: "/legal-documents",
       isOpen: false,
     },
     {
