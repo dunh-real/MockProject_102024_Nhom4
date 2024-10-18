@@ -8,6 +8,7 @@ import UserRoutes from "./users";
 import RequestRouter from "./request";
 import RequestDetailRouter from "./requestdetail";
 import ProfileRouter from "./profile";
+import ContractInformationRouter from "./contractinformation";
 
 const router = createBrowserRouter([
     ...AuthRoutes,
@@ -17,7 +18,8 @@ const router = createBrowserRouter([
     ...SettingRoutes,
     ...RequestRouter,
     ...RequestDetailRouter,
-    ...ProfileRouter
+    ...ProfileRouter,
+    ...ContractInformationRouter
 
     // ...ErrorRoutes,
 ]);

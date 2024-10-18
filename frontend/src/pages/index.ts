@@ -4,3 +4,5 @@ export { default as Dashboard } from "./dashboard";
 export { default as Users } from "./users";
 export { default as Settings } from "./settings";
 export { default as Request } from "./Request";
+export { default as RequestDetail } from "./requestdetail";
+export { default as Profile } from "./profile";

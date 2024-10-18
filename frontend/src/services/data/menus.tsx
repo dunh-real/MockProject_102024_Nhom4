@@ -4,6 +4,7 @@ import {
     Settings2,
   } from "tabler-icons-react";
   import { FaCodePullRequest } from "react-icons/fa6";
+  import { FaFileContract } from "react-icons/fa";
   interface MenuItem {
     title: string;
     link?: string;
@@ -29,6 +30,12 @@ import {
       icon: <FaCodePullRequest size={18} strokeWidth={2} />,
       title: "Manage Request List",
       link: "/request",
+      isOpen: false,
+    },
+    {
+      icon: <FaFileContract size={18} strokeWidth={2} />,
+      title: "Contract Information",
+      link: "/contractinformation",
       isOpen: false,
     },
     {

@@ -16,7 +16,7 @@ const ProfilePage = () => {
 
     },
     {
-      title: "Edit Profile",
+      title: "Profile",
       link: "/profile",
     },
   ]));

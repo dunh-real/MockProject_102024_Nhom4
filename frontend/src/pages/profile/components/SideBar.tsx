@@ -11,7 +11,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
     return (
         <div className="md:w-1/4 w-full bg-orange-200 rounded-lg p-4 mb-4 md:mb-0">
             <div className="flex flex-col mt-[25px] items-center">
-                <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden mb-6">
+                <div className="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden mb-6">
                     <img
                         src="https://github.com/shadcn.png"
                         alt="User Avatar"
@@ -21,7 +21,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
                 <div className="flex flex-col mt-4 gap-5 w-full">
                     <button
                         className={`bg-white text-left text-gray-700 py-2 px-4 rounded-lg shadow-md hover:bg-gray-200 w-full 
-                            ${activeTab === "Personal Information" ? "bg-white text-[#F8A869]" : ""}`}
+                            ${activeTab === "Personal Information" ? "bg-gray-100 text-[#f99b53]" : ""}`}
                         onClick={() => setActiveTab("Personal Information")}
                     >
                         <div className="flex pl-[15px] items-center gap-3">
@@ -31,7 +31,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
                     </button>
                     <button
                         className={`bg-white text-left text-gray-700 py-2 px-4 rounded-lg shadow-md hover:bg-gray-200 w-full 
-                            ${activeTab === "Security" ? "bg-white text-[#F8A869]" : ""}`}
+                            ${activeTab === "Security" ? "bg-gray-100 text-[#f99b53]" : ""}`}
                         onClick={() => setActiveTab("Security")}
                     >
                         <div className="flex pl-[15px] items-center gap-3">
@@ -41,7 +41,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
                     </button>
                     <button
                         className={`bg-white text-left text-gray-700 py-2 px-4 rounded-lg shadow-md hover:bg-gray-200 w-full
-                            ${activeTab === "Work & Position" ? "bg-white text-[#F8A869]" : ""}`}
+                            ${activeTab === "Work & Position" ? "bg-gray-100 text-[#f99b53]" : ""}`}
                         onClick={() => setActiveTab("Work & Position")}
                     >
                         <div className="flex pl-[15px]  items-center gap-3">
