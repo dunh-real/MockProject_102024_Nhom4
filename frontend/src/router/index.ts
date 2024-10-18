@@ -5,6 +5,9 @@ import HomeRoutes from "./home";
 import DashboardRoutes from "./dashboard";
 import SettingRoutes from "./settings";
 import UserRoutes from "./users";
+import RequestRouter from "./request";
+import RequestDetailRouter from "./requestdetail";
+import ProfileRouter from "./profile";
 
 const router = createBrowserRouter([
     ...AuthRoutes,
@@ -12,6 +15,10 @@ const router = createBrowserRouter([
     ...DashboardRoutes,
     ...UserRoutes,
     ...SettingRoutes,
+    ...RequestRouter,
+    ...RequestDetailRouter,
+    ...ProfileRouter
+
     // ...ErrorRoutes,
 ]);
 
