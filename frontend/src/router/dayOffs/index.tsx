@@ -1,20 +1,20 @@
 import { ErrorBoundary } from "../../components";
 import { MainLayout } from "../../layouts";
-import { Users } from "../../pages";
+import { DayOffs } from "../../pages";
 import { RouteObject } from "react-router-dom";
 
-const UserRoutes: RouteObject[] = [
+const DayOffRoutes: RouteObject[] = [
   {
-    path: "/users",
+    path: "/dayoffs",
     element: <MainLayout />,
     errorElement: <ErrorBoundary />,
     children: [
       {
         path: "",
-        element: <Users />,
+        element: <DayOffs />,
       },
     ],
   },
 ];
 
-export default UserRoutes;
+export default DayOffRoutes;
