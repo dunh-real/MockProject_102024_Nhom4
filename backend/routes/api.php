@@ -28,6 +28,4 @@ Route::group(['namespace' => 'api'], function () {
   Route::get('/fines', [FineController::class, 'getFines']);
   Route::get('/resident-fines/{id}', [FineController::class, 'getResidentFines']);
   Route::post('/pay-fine/{fineId}', [FineController::class, 'payFine']);
-  
-
 });

@@ -29,4 +29,9 @@ class Payment extends Model
   {
     return $this->belongsTo(Fine::class, 'fine_id');
   }
+
+  public function lease_contract()
+  {
+    return $this->belongsTo(LeaseContract::class, 'lease_contract_id');
+  }
 }
