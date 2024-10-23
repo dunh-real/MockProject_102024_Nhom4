@@ -3,7 +3,7 @@ import { ErrorBoundary } from "../../components";
 import { MainLayout } from "../../layouts";
 import { RouteObject } from "react-router-dom";
 import CreateLeaseContract from "../../pages/legal-documents/create";
-import LeaseContractDetails from "@/pages/legal-documents/details";
+import LeaseContractDetails from "../../pages/legal-documents/details";
 
 
 const LegalDocumentsRoutes: RouteObject[] = [
