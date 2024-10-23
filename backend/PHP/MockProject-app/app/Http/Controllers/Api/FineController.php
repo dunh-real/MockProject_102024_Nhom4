@@ -104,11 +104,4 @@ class FineController extends Controller
       'data' => $payment
     ], Response::HTTP_OK);
   }
-
-
-
-
-
-
-
 }
