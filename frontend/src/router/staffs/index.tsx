@@ -1,20 +1,20 @@
+import { RouteObject } from "react-router-dom";
 import { ErrorBoundary } from "../../components";
 import { MainLayout } from "../../layouts";
-import { Users } from "../../pages";
-import { RouteObject } from "react-router-dom";
+import { Staff } from "../../pages";
 
-const UserRoutes: RouteObject[] = [
+const StaffManagementRoutes: RouteObject[] = [
   {
-    path: "/users",
+    path: "/staffManagement",
     element: <MainLayout />,
     errorElement: <ErrorBoundary />,
     children: [
       {
         path: "",
-        element: <Users />,
+        element: <Staff />,
       },
     ],
   },
 ];
 
-export default UserRoutes;
+export default StaffManagementRoutes;

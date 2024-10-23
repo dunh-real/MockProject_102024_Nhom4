@@ -27,15 +27,22 @@ import {
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import React from "react";
+import { Plus } from "tabler-icons-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  totalPages: number;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  page,
+  setPage,
+  totalPages,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -63,6 +70,107 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  const renderPageNumbers = () => {
+    let pageButtons = [];
+
+    if (totalPages <= 4) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageButtons.push(
+          <Button
+            key={i}
+            variant={"outline"}
+            size="lg"
+            onClick={() => setPage(i)}
+            style={{
+              fontWeight: page === i ? "bold" : "normal",
+              backgroundColor: page === i ? "#ff7f1d" : "transparent",
+              color: page === i ? "#fff" : "#000",
+            }}
+          >
+            {i}
+          </Button>
+        );
+      }
+    } else {
+      if (page <= 3) {
+        for (let i = 1; i <= 4; i++) {
+          pageButtons.push(
+            <Button
+              key={i}
+              variant={"outline"}
+              size="lg"
+              onClick={() => setPage(i)}
+              style={{
+                fontWeight: page === i ? "bold" : "normal",
+                backgroundColor: page === i ? "#ff7f1d" : "transparent",
+                color: page === i ? "#fff" : "#000",
+              }}
+            >
+              {i}
+            </Button>
+          );
+        }
+        pageButtons.push(
+          <Button key="dots-start" variant="outline" size="lg">
+            ...
+          </Button>
+        );
+
+        pageButtons.push(
+          <Button
+            key={totalPages}
+            variant={"outline"}
+            size="lg"
+            onClick={() => setPage(totalPages)}
+          >
+            {totalPages}
+          </Button>
+        );
+      } else if (page > totalPages - 3) {
+        pageButtons.push(
+          <Button
+            key={1}
+            variant={"outline"}
+            size="lg"
+            onClick={() => setPage(1)}
+            style={{
+              fontWeight: page === 1 ? "bold" : "normal",
+              backgroundColor: page === 1 ? "#ff7f1d" : "transparent",
+              color: page === 1 ? "#fff" : "#000",
+            }}
+          >
+            1
+          </Button>
+        );
+        pageButtons.push(
+          <Button key="dots-start" variant="outline" size="lg">
+            ...
+          </Button>
+        );
+
+        for (let i = totalPages - 3; i <= totalPages; i++) {
+          pageButtons.push(
+            <Button
+              key={i}
+              variant={"outline"}
+              size="lg"
+              onClick={() => setPage(i)}
+              style={{
+                fontWeight: page === i ? "bold" : "normal",
+                backgroundColor: page === i ? "#ff7f1d" : "transparent",
+                color: page === i ? "#fff" : "#000",
+              }}
+            >
+              {i}
+            </Button>
+          );
+        }
+      }
+    }
+
+    return pageButtons;
+  };
+
   return (
     <>
       <div className="flex items-center py-4">
@@ -74,32 +182,18 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Button
+          variant="outline"
+          className="ml-auto"
+          style={{
+            fontWeight: "bold",
+            backgroundColor: "#ff7f1d",
+            color: "#fff",
+          }}
+        >
+          <Plus size={18} strokeWidth={2} />
+          Create new
+        </Button>
       </div>
       <div>
         <Table>
@@ -157,17 +251,18 @@ export function DataTable<TData, TValue>({
         <div className="flex items-center justify-end space-x-2 py-4">
           <Button
             variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            size="lg"
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            disabled={page === 1}
           >
             Previous
           </Button>
+          {renderPageNumbers()}
           <Button
             variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            size="lg"
+            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={page === totalPages}
           >
             Next
           </Button>

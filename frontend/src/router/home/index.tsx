@@ -10,7 +10,7 @@ const HomeRoutes: RouteObject[] = [
     errorElement: <ErrorBoundary />,
     children: [
       {
-        path: "",
+        path: "/",
         element: <Home />,
       },
     ],

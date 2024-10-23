@@ -5,14 +5,16 @@ import HomeRoutes from "./home";
 import DashboardRoutes from "./dashboard";
 import SettingRoutes from "./settings";
 import UserRoutes from "./users";
+import StaffManagementRoutes from "./staffs";
 
 const router = createBrowserRouter([
-    ...AuthRoutes,
-    ...HomeRoutes,
-    ...DashboardRoutes,
-    ...UserRoutes,
-    ...SettingRoutes,
-    // ...ErrorRoutes,
+  ...AuthRoutes,
+  ...HomeRoutes,
+  ...DashboardRoutes,
+  ...StaffManagementRoutes,
+  ...UserRoutes,
+  ...SettingRoutes,
+  // ...ErrorRoutes,
 ]);
 
 export default router;
