@@ -11,7 +11,8 @@ import {
     Settings2,
     Category2,
     Package,
-    File3d
+    File3d,
+    File
   } from "tabler-icons-react";
   
   interface MenuItem {
@@ -97,6 +98,12 @@ import {
       icon: <Settings2 size={18} strokeWidth={2} />,
       title: "Settings",
       link: "/settings",
+      isOpen: false,
+    },
+    {
+      icon: <File size={18} strokeWidth={2} />,
+      title: "Employee Contracts",
+      link: "/employee-contracts",
       isOpen: false,
     },
   ];

@@ -6,6 +6,7 @@ import DashboardRoutes from "./dashboard";
 import LegalDocumentsRoutes from "./legal-documents";
 import SettingRoutes from "./settings";
 import UserRoutes from "./users";
+import EmployeeContractRoutes from "./employee-contracts";
 
 const router = createBrowserRouter([
     ...AuthRoutes,
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
     ...UserRoutes,
     ...SettingRoutes,
     ...LegalDocumentsRoutes,
+    ...EmployeeContractRoutes,
     // ...ErrorRoutes,
 ]);
 
