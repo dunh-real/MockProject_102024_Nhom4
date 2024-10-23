@@ -24,7 +24,7 @@ class StaffController extends Controller
     public function index(Request $request)
     {
         $result = $this->staffService->getAll();
-        return response()->success("List staff members retrieved successfully", StaffResource::apiPaginate($result, $request));
+        return StaffResource::apiPaginate($result, $request);
     }
 
     public function show(Staff $staff)
