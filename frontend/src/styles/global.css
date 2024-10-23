@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --primary: #5396fb;
+        --secondary: #8fd8fc;
+        --danger: #ff204e;
+        --background: #ffffff;
+        /* Changed to a light background */
+        --foreground: #1e293b;
+        --light: #ffffff;
+        /* Keeping light color */
+    }
+}
+
+@layer utilities {
+    body {
+        @apply font-sans text-dark bg-light;
+        /* Only light theme styles */
+    }
+
+    .nav-link {
+        @apply flex items-center gap-2 text-sm px-4 py-3 my-[2px] rounded-none cursor-pointer;
+    }
+
+    .nav-active {
+        background-color: #ff7f1d;
+        /* Change to a lighter shade of #F8A869 */
+        color: white;
+        /* Ensure text color is white for active state */
+    }
+}
