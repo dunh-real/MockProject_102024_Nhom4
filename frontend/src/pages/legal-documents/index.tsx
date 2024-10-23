@@ -6,9 +6,9 @@ import { ChevronLeft, ChevronRight, File, Search } from "tabler-icons-react";
 import { Button } from "../../components/ui/button";
 import { useNavigate } from "react-router-dom";
 
-
 const leaseContracts = [
   {
+    ID: 1,
     start_date: "2024-01-31",
     end_date: "2025-06-16",
     rent_price: 2452.05,
@@ -18,6 +18,7 @@ const leaseContracts = [
     employee_id: 98,
   },
   {
+    ID: 2,
     start_date: "2022-11-07",
     end_date: "2025-02-22",
     rent_price: 1881.76,
@@ -27,6 +28,7 @@ const leaseContracts = [
     employee_id: 80,
   },
   {
+    ID: 3,
     start_date: "2024-03-16",
     end_date: "2025-06-27",
     rent_price: 2211.82,
@@ -36,6 +38,7 @@ const leaseContracts = [
     employee_id: 8,
   },
   {
+    ID: 4,
     start_date: "2023-10-18",
     end_date: "2026-06-05",
     rent_price: 1664.99,
@@ -45,6 +48,7 @@ const leaseContracts = [
     employee_id: 64,
   },
   {
+    ID: 4,
     start_date: "2023-07-29",
     end_date: "2026-01-24",
     rent_price: 862.3,
@@ -54,6 +58,7 @@ const leaseContracts = [
     employee_id: 34,
   },
   {
+    ID: 6,
     start_date: "2024-04-10",
     end_date: "2025-01-25",
     rent_price: 2480.1,
@@ -63,6 +68,7 @@ const leaseContracts = [
     employee_id: 87,
   },
   {
+    ID: 7,
     start_date: "2023-09-25",
     end_date: "2025-12-29",
     rent_price: 901.85,
@@ -72,6 +78,7 @@ const leaseContracts = [
     employee_id: 11,
   },
   {
+    ID: 8,
     start_date: "2023-01-15",
     end_date: "2026-03-27",
     rent_price: 2066.21,
@@ -81,6 +88,7 @@ const leaseContracts = [
     employee_id: 3,
   },
   {
+    ID: 9,
     start_date: "2022-12-17",
     end_date: "2026-08-14",
     rent_price: 2066.31,
@@ -90,6 +98,7 @@ const leaseContracts = [
     employee_id: 24,
   },
   {
+    ID: 10,
     start_date: "2024-05-18",
     end_date: "2025-12-02",
     rent_price: 2138.24,
@@ -99,6 +108,7 @@ const leaseContracts = [
     employee_id: 85,
   },
   {
+    ID: 11,
     start_date: "2022-11-18",
     end_date: "2025-08-14",
     rent_price: 1363.09,
@@ -108,6 +118,7 @@ const leaseContracts = [
     employee_id: 22,
   },
   {
+    ID: 12,
     start_date: "2023-11-14",
     end_date: "2025-08-02",
     rent_price: 2496.01,
@@ -117,6 +128,7 @@ const leaseContracts = [
     employee_id: 13,
   },
   {
+    ID: 13,
     start_date: "2024-03-20",
     end_date: "2025-03-18",
     rent_price: 1872.68,
@@ -126,6 +138,7 @@ const leaseContracts = [
     employee_id: 85,
   },
   {
+    ID: 14,
     start_date: "2023-11-26",
     end_date: "2026-06-11",
     rent_price: 2016.22,
@@ -135,6 +148,7 @@ const leaseContracts = [
     employee_id: 100,
   },
   {
+    ID: 15,
     start_date: "2023-06-15",
     end_date: "2026-06-17",
     rent_price: 1012.77,
@@ -169,6 +183,10 @@ const LegalDocuments: React.FC = () => {
 
   const handleCreateClick = () => {
     navigate("/legal-documents/create"); // Replace with the route of the create page
+  };
+
+  const handleDetailsClick = (id: number) => {
+    navigate(`/legal-documents/details/${id}`);
   };
 
   const handlePageChange = (newPage: number) => {
@@ -211,13 +229,18 @@ const LegalDocuments: React.FC = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {paginatedDocuments.map((doc) => (
               <div
-                key={`${doc.apartment_id}-${doc.employee_id}-${doc.resident_id}`}
+                key={doc.ID}
+                onClick={() => handleDetailsClick(doc.ID)}
                 className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors"
               >
                 <File className="w-16 h-16 text-gray-600 mb-2" />
-                <p className="text-sm text-center">Lease Contract {doc.apartment_id}, {doc.employee_id}, {doc.resident_id}</p>
-                <p className="text-sm text-center text-[#F8A869]">{doc.start_date} to {doc.end_date}</p>
-                
+                <p className="text-sm text-center">
+                  Lease Contract {doc.apartment_id}, {doc.employee_id},{" "}
+                  {doc.resident_id}
+                </p>
+                <p className="text-sm text-center text-[#F8A869]">
+                  {doc.start_date} to {doc.end_date}
+                </p>
               </div>
             ))}
           </div>

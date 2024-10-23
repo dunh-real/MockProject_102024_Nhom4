@@ -1,4 +1,5 @@
 export interface LeaseContractType {
+  ID: number;
   start_date: string; // Format YYYY-MM-DD
   end_date: string; // Format YYYY-MM-DD
   rent_price: number; // Decimal value

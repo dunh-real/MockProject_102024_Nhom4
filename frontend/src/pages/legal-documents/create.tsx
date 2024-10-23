@@ -1,10 +1,11 @@
 import React, { FormEvent, useState } from "react";
 import { LeaseContractType } from "@/types/legal-documents";
-import { useCreateLeaseContractMutation } from "../../store/api/endpoints/legal-documents";
 import { Button } from "../../components/ui/button";
+import { nan } from "zod";
 
 const CreateLeaseContract: React.FC = () => {
   const [formData, setFormData] = useState<LeaseContractType>({
+    ID: 0,
     start_date: "",
     end_date: "",
     rent_price: 0,
@@ -49,6 +50,7 @@ const CreateLeaseContract: React.FC = () => {
 
       setMessage("New lease contract created successfully");
       setFormData({
+        ID: 0,
         start_date: "",
         end_date: "",
         rent_price: 0,
