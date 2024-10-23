@@ -2,7 +2,13 @@ import { CategoryType } from "../../../types";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "../../../components/ui/button";
-import { useDeleteDayOffMutation } from "../../../store/api/endpoints/dayOff";
+import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import {
+  useDeleteDayOffMutation,
+  useApproveDayOffMutation,
+} from "../../../store/api/endpoints/dayOff";
 import { Row } from "@tanstack/react-table";
 import {
   DropdownMenu,
@@ -23,13 +29,23 @@ import { Result } from "antd";
 // Tạo component riêng cho cell của cột actions
 const ActionCell = ({ row }: { row: Row<CategoryType> }) => {
   const [deleteDayOff] = useDeleteDayOffMutation(); // Sử dụng hook trong component
+  const [approveDayOff] = useApproveDayOffMutation();
 
   const handleDelete = async (id: string) => {
     try {
       var result = await deleteDayOff(id).unwrap(); // Gọi hàm xóa và xử lý kết quả
-      console.log(result);
+      toast.success(result.message);
     } catch (error) {
-      console.error(result);
+      toast.error(result.message);
+    }
+  };
+
+  const handleApprove = async (id: string, status: number) => {
+    try {
+      var result = await approveDayOff({ id, is_approved: status }).unwrap(); // Gọi API approve với trạng thái mới
+      toast.success(result.message);
+    } catch (error) {
+      toast.error(result.message);
     }
   };
 
@@ -49,8 +65,35 @@ const ActionCell = ({ row }: { row: Row<CategoryType> }) => {
           Copy ID
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+        {row.getValue("is_approved") === "2" && (
+          <>
+            <DropdownMenuItem
+              onClick={() => handleApprove(row.getValue("id"), 1)}
+            >
+              Approve
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => handleApprove(row.getValue("id"), 0)}
+            >
+              Reject
+            </DropdownMenuItem>
+          </>
+        )}
+        {row.getValue("is_approved") === "0" && (
+          <DropdownMenuItem
+            onClick={() => handleApprove(row.getValue("id"), 1)}
+          >
+            Approve
+          </DropdownMenuItem>
+        )}
+        {row.getValue("is_approved") === "1" && (
+          <DropdownMenuItem
+            onClick={() => handleApprove(row.getValue("id"), 0)}
+          >
+            Reject
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem>View Detail</DropdownMenuItem>
-        <DropdownMenuItem>Edit</DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleDelete(row.getValue("id"))}>
           Delete
         </DropdownMenuItem>
@@ -105,6 +148,10 @@ export const columns: ColumnDef<CategoryType>[] = [
   {
     accessorKey: "type",
     header: "Type",
+  },
+  {
+    accessorKey: "reason",
+    header: "Reason",
   },
   {
     accessorKey: "is_approved",

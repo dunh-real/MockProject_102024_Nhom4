@@ -4,6 +4,8 @@ import { DataTable } from "./components/data-table";
 import { useGetDayOffsQuery } from "../../store/api/endpoints/dayOff";
 import { useDispatch } from "react-redux";
 import { setBreadCrumb } from "../../store/slice/app";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 
 const DayOff = () => {
@@ -15,7 +17,7 @@ const DayOff = () => {
     ])
   );
   const [page, setPage] = React.useState(1); // Trang hiện tại
-  const [pageSize, setPageSize] = React.useState(10); // Số lượng mục mỗi trang
+  const [pageSize, setPageSize] = React.useState(5); // Số lượng mục mỗi trang
   const { data, isLoading } = useGetDayOffsQuery({ page, page_size: pageSize });
   if (isLoading) {
     return (
@@ -29,13 +31,16 @@ const DayOff = () => {
     // Số trang có thể có dựa trên tổng số mục từ API
     const totalPages = Math.ceil((data?.meta.total ?? 0) / pageSize);
     return (
-      <DataTable
-        columns={columns}
-        data={data?.data || []}
-        page={page}
-        setPage={setPage}
-        totalPages={totalPages}
-      />
+      <div>
+        <ToastContainer autoClose={3000} position="bottom-right" />
+        <DataTable
+          columns={columns}
+          data={data?.data || []}
+          page={page}
+          setPage={setPage}
+          totalPages={totalPages}
+        />
+      </div>
     );
   }
 };

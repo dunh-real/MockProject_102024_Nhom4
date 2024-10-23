@@ -24,6 +24,14 @@ const dayOffApi = api.injectEndpoints({
       }),
       invalidatesTags: ["DayOff"],
     }),
+    approveDayOff: builder.mutation({
+      query: ({ id, is_approved }) => ({
+        url: `/dayoffs/${id}/approve`,
+        method: "PATCH",
+        params: { is_approved },
+      }),
+      invalidatesTags: ["DayOff"],
+    }),
   }),
 });
 
@@ -31,4 +39,5 @@ export const {
   useGetDayOffsQuery,
   useGetDayOffQuery,
   useDeleteDayOffMutation,
+  useApproveDayOffMutation,
 } = dayOffApi;
