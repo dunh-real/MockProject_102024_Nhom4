@@ -10,11 +10,19 @@ class Employee extends Model
 {
     //
     use HasFactory;
-    protected $table = 'Employee'; // Specify the name of the database table that this model is associated with
+    
+    protected $table = 'Employee'; // Bảng Employee
+    protected $fillable = ['name', 'email', 'username', 'password', 'role_id', 'status'];
+
     public $timestamps = false;
 
     // protected $fillable = [
     //     'id', 'category_id', 'description', 'image', 'price', 'stock',
     // ];
     protected $guarded = [];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id' );
+    }
 }

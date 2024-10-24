@@ -2,34 +2,56 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Staff\LeaseContractController;
 use App\Http\Controllers\CandidateCVController;
 use App\Http\Controllers\ComplaintController;
-use App\Models\Candidate;
+use App\Http\Controllers\CandidateController;
+use Illuminate\Support\Facades\Log;
 
-
-Route::get('/user', function (Request $request) {
+// Route để lấy thông tin người dùng hiện tại, sử dụng Sanctum
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-})->middleware('auth:sanctum');
+});
 
+// Route đăng nhập
+Route::post('/login', [AuthController::class, 'login']);
 
+// Nhóm route yêu cầu xác thực với Sanctum
+Route::middleware('auth:sanctum')->group(function () {
+    // Đăng xuất và lấy thông tin người dùng
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me', [AuthController::class, 'me']); 
 
+    // Nhóm route dành cho staff với middleware 'role:staff'
+    Route::middleware('role:staff')->prefix('staff')->group(function () {
+        Route::get('lease-contracts/search', [LeaseContractController::class, 'search']);
+        Route::resource('lease-contracts', LeaseContractController::class);
+    });
 
-// CV controller routes
-Route::get('/cvs', [CandidateCVController::class, 'getListCVs']); // Get CV list
-Route::get('/cvs/status/{status}', [CandidateCVController::class, 'getListCvByStatus']); // Get CV by status
-Route::get('/cvs/{id}', [CandidateCVController::class, 'getCvDetail']); // Get CV details
-Route::delete('/cvs/{id}', [CandidateCVController::class, 'deleteCvById']); // Delete CV
-Route::patch('/cvs/{id}/restore', [CandidateCVController::class, 'restoreCvById']); // Restore CV
-Route::put('/cvs/update/{id}', [CandidateCVController::class, 'updateStatusCV']); // Update status CV
+});
 
-// Complaint controller routes
-Route::get('/complaints', [ComplaintController::class, 'getListComplaintRequest']); // 
-Route::get('/complaints/{id}', [ComplaintController::class, 'getDetailComplaintRequest']); // Get the list of complaint requirements
-Route::put('/complaints/update/{id}', [ComplaintController::class, 'updateComplaintRequest']); // update complaint requirements
-Route::post('/complaints/create', [ComplaintController::class, 'createComplaintRequest']); // Create new complaint requirements
-Route::delete('/complaints/{id}', [ComplaintController::class, 'deleteComplaintRequest']); // Delete complaint requirements
-Route::patch('/complaints/{id}/restore', [ComplaintController::class, 'restoreComplaintRequest']); // Restore complaint requirements
+// Nhóm route cho CV Controller
+Route::prefix('cvs')->group(function () {
+    Route::get('/', [CandidateCVController::class, 'getListCVs']); // Get CV list
+    Route::get('/status/{status}', [CandidateCVController::class, 'getListCvByStatus']); // Get CV by status
+    Route::get('/{id}', [CandidateCVController::class, 'getCvDetail']); // Get CV details
+    Route::delete('/{id}', [CandidateCVController::class, 'deleteCvById']); // Delete CV
+    Route::patch('/{id}/restore', [CandidateCVController::class, 'restoreCvById']); // Restore CV
+    Route::put('/update/{id}', [CandidateCVController::class, 'updateStatusCV']); // Update status CV
+});
 
-// Candidate controller routes
-Route::post('/candidates/create', [CandidateController::class, 'addCandidatesToEmployee']); // Add candidate to employee list
+// Nhóm route cho Complaint Controller
+Route::prefix('complaints')->group(function () {
+    Route::get('/', [ComplaintController::class, 'getListComplaintRequest']); // Get list of complaints
+    Route::get('/{id}', [ComplaintController::class, 'getDetailComplaintRequest']); // Get complaint details
+    Route::put('/update/{id}', [ComplaintController::class, 'updateComplaintRequest']); // Update complaint
+    Route::post('/create', [ComplaintController::class, 'createComplaintRequest']); // Create new complaint
+    Route::delete('/{id}', [ComplaintController::class, 'deleteComplaintRequest']); // Delete complaint
+    Route::patch('/{id}/restore', [ComplaintController::class, 'restoreComplaintRequest']); // Restore complaint
+});
+
+// Nhóm route cho Candidate Controller
+Route::prefix('candidates')->group(function () {
+    Route::post('/create', [CandidateController::class, 'addCandidatesToEmployee']); // Add candidate to employee list
+});
