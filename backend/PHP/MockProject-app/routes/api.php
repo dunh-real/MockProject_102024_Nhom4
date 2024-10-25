@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CandidateCVController;
 use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\WorkScheduleController;
+use App\Http\Controllers\TimeKeepingController;
 use App\Models\Candidate;
 
 
@@ -38,3 +40,9 @@ Route::post('/candidates/create', [CandidateController::class, 'addCandidatesToE
 Route::get('/monthly/{employeeId}/{month}', [WorkScheduleController::class, 'getMonthlySchedule']);
 Route::get('/details/{employeeId}/{date}', [WorkScheduleController::class, 'getScheduleDetails']);
 Route::post('/notify', [WorkScheduleController::class, 'notifyScheduleChange']);
+
+// Timekeeping controller routes
+Route::get('/timekeeping', [TimeKeepingController::class, 'index']);
+Route::post('/timekepping', [TimeKeepingController::class, 'store']);
+Route::put('/checkout/{id}', [TimeKeepingController::class, 'updateCheckOut']);
+Route::get('/hours/{id}', [TimeKeepingController::class, 'calculateTotalHours']);
