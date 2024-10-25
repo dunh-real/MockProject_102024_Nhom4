@@ -1,22 +1,62 @@
-import axios from 'axios';
-import { EmployeeContract } from '@/types/employee-contracts';
+import { EmployeeContract } from "@/types/employee-contracts";
+import { api } from ".."; // Assuming you have a base API setup similar to the previous example
 
-const API_URL = 'http://your-api-endpoint.com/api/employeeContracts';
+const employeeContractApi = api.injectEndpoints({
+  endpoints: (builder) => ({
+    // Create an employee contract
+    createEmployeeContract: builder.mutation({
+      query: (contract: EmployeeContract) => ({
+        url: "/api/employeeContracts/create", // Adjusted for create
+        method: "POST",
+        body: contract,
+      }),
+    }),
 
-export const employeeContractApi = {
-    getAll: async (): Promise<EmployeeContract[]> => {
-        const response = await axios.get(API_URL);
-        return response.data;
-    },
-    create: async (contract: EmployeeContract): Promise<EmployeeContract> => {
-        const response = await axios.post(API_URL, contract);
-        return response.data;
-    },
-    update: async (id: number, contract: EmployeeContract): Promise<EmployeeContract> => {
-        const response = await axios.put(`${API_URL}/${id}`, contract);
-        return response.data;
-    },
-    delete: async (id: number): Promise<void> => {
-        await axios.delete(`${API_URL}/${id}`);
-    },
-};
+
+    // Update an employee contract by ID
+    updateEmployeeContract: builder.mutation({
+      query: ({
+        id,
+        contract,
+      }: {
+        id: number;
+        contract: EmployeeContract;
+      }) => ({
+        url: `/api/employeeContracts/update/${id}`, // Adjusted for update
+        method: "PUT",
+        body: contract,
+      }),
+    }),
+
+    // Delete an employee contract by ID
+    deleteEmployeeContract: builder.mutation({
+      query: (id: number) => ({
+        url: `/api/employeeContracts/delete/${id}`, // Adjusted for delete
+        method: "DELETE",
+      }),
+    }),
+
+    // Get all employee contracts
+    getAllEmployeeContracts: builder.query({
+      query: () => ({
+        url: "/api/employeeContracts", // Adjusted for get all
+        method: "GET",
+      }),
+    }),
+    getEmployeeContractById: builder.query({
+      query: (id) => ({
+        url: `/api/employeeContracts/${id}`, // Adjusted for get all
+        method: "GET",
+      }),
+    }),
+  }),
+});
+
+// Exporting hooks for use in React components
+export const {
+  useCreateEmployeeContractMutation,
+  useUpdateEmployeeContractMutation,
+  useDeleteEmployeeContractMutation,
+  useGetAllEmployeeContractsQuery,
+  useGetEmployeeContractByIdQuery,
+} = employeeContractApi;
