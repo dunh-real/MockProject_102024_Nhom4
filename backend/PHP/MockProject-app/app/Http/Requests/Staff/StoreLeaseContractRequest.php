@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Requests\Staff;
-
+use App\Models\Employee;
 use Illuminate\Foundation\Http\FormRequest;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class StoreLeaseContractRequest extends FormRequest
 {
@@ -13,7 +14,6 @@ class StoreLeaseContractRequest extends FormRequest
      */
     public function authorize()
     {
-        // Tạm thời cho phép tất cả yêu cầu
         return true;
     }
 

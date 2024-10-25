@@ -61,19 +61,20 @@ class AuthController extends Controller
             }
             Log::info('Password validated');
 
-            // Tạo token truy cập cho người dùng (Sử dụng Laravel Sanctum hoặc Passport)
-            $token = $user->createToken('access_token')->plainTextToken;
-            Log::info('Token created');
-            // Lấy lại role của người dùng sau khi đăng nhập để đảm bảo thông tin mới nhất
-            $role = optional($user->role)->name;
-            Log::info('User Role after login: ' . $role);
+            // Tạo token truy cập và lưu lại để cập nhật vai trò
+            $createdToken = $user->createToken('access_token');
+            $token = $createdToken->plainTextToken;
+    
+            // Cập nhật vai trò vào token vừa tạo
+            $createdToken->accessToken->update(['role' => $role]);
+            Log::info('Token created and role assigned: ' . $role);
             
             // Trả về thông tin người dùng cùng token
             return response()->json([
                 'message' => 'Login successful',
                 'access_token' => $token,
                 'token_type' => 'Bearer',
-                'role' => $role,
+                'role' => $user->role->name,
                 'user' => [
                     'name' => $user->name,
                     'email' => $user->email,

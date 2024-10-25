@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\EmployeeContractController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -23,12 +24,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']); 
 
-    // Nhóm route dành cho staff với middleware 'role:staff'
-    Route::middleware('role:staff')->prefix('staff')->group(function () {
+    // Nhóm route dành cho staff
+    Route::prefix('staff')->group(function () {
         Route::get('lease-contracts/search', [LeaseContractController::class, 'search']);
         Route::resource('lease-contracts', LeaseContractController::class);
     });
 
+    // Route cho admin
+    Route::prefix('admin')->group(function () {
+        Route::resource('employee-contracts', EmployeeContractController::class);
+    });
 });
 
 // Nhóm route cho CV Controller

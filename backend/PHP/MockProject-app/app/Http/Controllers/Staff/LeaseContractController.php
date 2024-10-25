@@ -9,41 +9,61 @@ use Illuminate\Http\Request;
 use App\Models\LeaseContract;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class LeaseContractController extends Controller
 {
     // 1.1 Create a New Lease Contract
     public function store(StoreLeaseContractRequest $request)
+{
+    try {
+        // Kiểm tra vai trò người dùng có phải là 'Staff' hay không
+        $user = $request->user();
+        Log::info('User role check:', ['role' => $user->role->name]);
+
+        if ($user->role->name !== 'Staff') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        // Lấy dữ liệu đã xác thực
+        $validatedData = $request->validated();
+        Log::info('Validated data for lease contract:', $validatedData);
+
+        // Bắt đầu transaction
+        DB::beginTransaction();
+
+        // Tạo hợp đồng thuê
+        $leaseContract = LeaseContract::create($validatedData);
+        Log::info('New Lease Contract Created:', ['leaseContract' => $leaseContract]);
+
+        // Xác nhận transaction
+        DB::commit();
+
+        return response()->json([
+            'message' => 'Lease contract created successfully',
+            'contractId' => $leaseContract->id
+        ], 201);
+        
+    } catch (\Exception $e) {
+        // Rollback nếu có lỗi
+        DB::rollBack();
+        Log::error('Error creating lease contract: ' . $e->getMessage());
+
+        return response()->json(['error' => 'Internal Server Error', 'details' => $e->getMessage()], 500);
+    }
+}
+    // 1.2 Get All Lease Contracts
+    public function index(Request $request) 
     {
         try {
-            // Check if lease contract already exists for the given apartment and resident
-            $existingContract = LeaseContract::where('apartment_id', $request->apartment_id)
-                ->where('resident_id', $request->resident_id)
-                ->first();
 
-            if ($existingContract) {
-                return response()->json(['error' => 'Lease contract already exists for this apartment and resident'], 409);
+            $user = $request->user();
+            if ($user->role->name !== 'Staff') {
+            return response()->json(['message' => 'Unauthorized'], 403);
             }
 
-            // Create the lease contract
-            $leaseContract = LeaseContract::create($request->all());
-
-            return response()->json([
-                'message' => 'Lease contract created successfully',
-                'contractId' => $leaseContract->id
-            ], 201);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Internal Server Error', 'details' => $e->getMessage()], 500);
-        }
-    }
-
-    // 1.2 Get All Lease Contracts
-    public function index() 
-    {
-        try {
-            Log::info('Fetching all lease contracts...');
             $contracts = LeaseContract::all();
-            Log::info('Lease contracts retrieved:', ['contracts' => $contracts]);
+            Log::info('Lease contracts count:', ['count' => $contracts->count()]);
             return response()->json([
                 'message' => 'Lease contracts retrieved successfully',
                 'data' => $contracts
@@ -55,9 +75,14 @@ class LeaseContractController extends Controller
     }
 
     // 1.3 Get a Lease Contract by ID
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        try {            
+        try {      
+            $user = $request->user();
+            if ($user->role->name !== 'Staff') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+            }
+      
             $leaseContract = LeaseContract::find($id);
             if (!$leaseContract) {
                 return response()->json(['error' => 'Lease contract not found'], 404);
@@ -76,6 +101,11 @@ class LeaseContractController extends Controller
     public function update(UpdateLeaseContractRequest $request, $id)
     {
         try {
+            $user = $request->user();
+            if ($user->role->name !== 'Staff') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+            }
+
             $leaseContract = LeaseContract::find($id);
 
             if (!$leaseContract) {
@@ -94,9 +124,14 @@ class LeaseContractController extends Controller
     }
 
     // 1.5 Delete a Lease Contract
-    public function destroy($id)
+    public function destroy($id,Request $request )
     {
         try {
+            $user = $request->user();
+            if ($user->role->name !== 'Staff') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+            }
+
             $leaseContract = LeaseContract::find($id);
 
             if (!$leaseContract) {
@@ -117,6 +152,11 @@ class LeaseContractController extends Controller
     public function search(Request $request)
     {
         try {
+            $user = $request->user();
+            if ($user->role->name !== 'Staff') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+            }
+
             $query = LeaseContract::query();
 
             $filters = ['start_date', 'end_date', 'apartment_id', 'resident_id', 'employee_id'];

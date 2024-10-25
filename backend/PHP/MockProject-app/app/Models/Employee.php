@@ -22,7 +22,8 @@ class Employee extends Authenticatable
     protected $guarded = [];
 
     public function role()
-    {
-        return $this->belongsTo(Role::class, 'role_id' );
+    {   
+        return $this->belongsTo(Role::class, 'role_id');
+        // return $this->morphOne(Role::class, 'roleable');
     }
 }
