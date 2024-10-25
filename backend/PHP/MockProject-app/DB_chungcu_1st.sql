@@ -830,4 +830,9 @@ GO
 SELECT * FROM LeaseContract;
 SELECT * FROM LeaseContract WHERE start_date = '2024-12-01' AND apartment_id = 5;
 SELECT * FROM Roles;
+
+-- Auth
 select * from Employee;
+select * from Admin;
+select * from Resident;
+select * from Landlord;
