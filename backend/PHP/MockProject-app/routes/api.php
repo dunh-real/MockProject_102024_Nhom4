@@ -33,3 +33,8 @@ Route::patch('/complaints/{id}/restore', [ComplaintController::class, 'restoreCo
 
 // Candidate controller routes
 Route::post('/candidates/create', [CandidateController::class, 'addCandidatesToEmployee']); // Add candidate to employee list
+
+// Work schedule controller routes
+Route::get('/monthly/{employeeId}/{month}', [WorkScheduleController::class, 'getMonthlySchedule']);
+Route::get('/details/{employeeId}/{date}', [WorkScheduleController::class, 'getScheduleDetails']);
+Route::post('/notify', [WorkScheduleController::class, 'notifyScheduleChange']);
