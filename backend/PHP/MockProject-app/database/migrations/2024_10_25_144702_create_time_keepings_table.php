@@ -12,12 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('time_keeping', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->date('date');
             $table->time('check_in_time')->nullable();
             $table->time('check_out_time')->nullable();
-            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
+            $table->integer('employee_id')->unsigned(); 
             $table->timestamps();
+    
+            $table->foreign('employee_id')
+                  ->references('id')
+                  ->on('Employee')
+                  ->onDelete('cascade');
         });
     }
 
