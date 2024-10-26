@@ -9,8 +9,8 @@ const WorkPosition: React.FC = () => {
           <label className="block text-gray-700 font-bold mb-2">You are responsible for request about:</label>
           <input
             type="text"
-            value="Electrical"
-            placeholder="Electrical"
+            value="Resident"
+            placeholder="Resident"
             className="w-full bg-gray-100 p-2 rounded-md"
             disabled
           />
@@ -19,8 +19,8 @@ const WorkPosition: React.FC = () => {
           <label className="block text-gray-700 font-bold mb-2">Position</label>
           <input
             type="text"
-            value="Staff"
-            placeholder="Staff"
+            value="Resident"
+            placeholder="Resident"
             className="w-full bg-gray-100 p-2 rounded-md"
             disabled
           />

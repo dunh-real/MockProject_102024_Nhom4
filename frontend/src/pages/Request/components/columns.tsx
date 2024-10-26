@@ -55,52 +55,22 @@ export const columns: ColumnDef<ProductType>[] = [
     header: "Request Type",
   },
   {
-    // accessorKey: "title",
+    accessorKey: "title",
     header: "Status",
   },
   {
-    accessorKey: "images",
-    header: "Requester",
-    cell: ({ row }) => {
-        const images = row.getValue("images") as string[];
-        return (
-          <div className="flex gap-2">
-            {images.map((imageUrl, index) => (
-              <img key={index} src={imageUrl} alt="Product Image" className="w-12 h-12 object-cover rounded" />
-            ))}
-          </div>
-        );
-      },
+    accessorKey: "id",
+    header: "Description",
   },
   {
     accessorKey: "title",
     header: "Solution",
   },
   {
-    accessorKey: "price",
-    header: ({ column }) => {
-      return (
-        <div
-          className=" flex items-center "
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Price
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </div>
-      );
-    },
-    cell: ({ row }) => <div>{row.getValue("price")} $</div>,
-  },
-  {
-    accessorKey: "category",
-    header: "Category",
-    cell: ({ row }) => <div>{ (row.getValue("category") as { name : string } ).name}</div>,
-  },
-  {
     accessorKey: "actions",
     header: "Action",
     cell: ({ row }) => {
-      return <ActionCell rowId={row.getValue("id")} />;
+      return <ActionCell  rowId={row.getValue("id")} />;
     },
     
   },

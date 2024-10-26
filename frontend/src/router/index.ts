@@ -9,6 +9,9 @@ import RequestRouter from "./request";
 import RequestDetailRouter from "./requestdetail";
 import ProfileRouter from "./profile";
 import ContractInformationRouter from "./contractinformation";
+import CreateRouter from "./request/create";
+import ProfileManagerRouter from "./proflieManager";
+import ProfileResidentRouter from "./profileResident";
 
 const router = createBrowserRouter([
     ...AuthRoutes,
@@ -19,7 +22,10 @@ const router = createBrowserRouter([
     ...RequestRouter,
     ...RequestDetailRouter,
     ...ProfileRouter,
-    ...ContractInformationRouter
+    ...ContractInformationRouter,
+    ...CreateRouter,
+    ...ProfileManagerRouter,
+    ...ProfileResidentRouter
 
     // ...ErrorRoutes,
 ]);
