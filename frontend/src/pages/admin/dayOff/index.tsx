@@ -1,29 +1,24 @@
-import { LoadingLottie } from "../../components";
+import { LoadingLottie } from "../../../components";
 import { columns } from "./components/columns";
 import { DataTable } from "./components/data-table";
-import { useGetEmployeeDayOffsQuery } from "../../store/api/endpoints/dayOff";
+import { useGetDayOffsQuery } from "../../../store/api/endpoints/dayOff";
 import { useDispatch } from "react-redux";
-import { setBreadCrumb } from "../../store/slice/app";
+import { setBreadCrumb } from "../../../store/slice/app";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 
-const DayOff = () => {
+const AdminDayOff = () => {
   const dispatch = useDispatch();
   dispatch(
     setBreadCrumb([
       { title: "Dashboard", link: "/" },
-      { title: "Day Off", link: "/dayoffs" },
+      { title: "Day Off", link: "/admin-dayoffs" },
     ])
   );
-  const id = 2;
   const [page, setPage] = React.useState(1); // Trang hiện tại
   const [pageSize, setPageSize] = React.useState(5); // Số lượng mục mỗi trang
-  const { data, isLoading } = useGetEmployeeDayOffsQuery({
-    id,
-    page,
-    page_size: pageSize,
-  });
+  const { data, isLoading } = useGetDayOffsQuery({ page, page_size: pageSize });
   if (isLoading) {
     return (
       <div className=" flex justify-center pt-10">
@@ -50,4 +45,4 @@ const DayOff = () => {
   }
 };
 
-export default DayOff;
+export default AdminDayOff;

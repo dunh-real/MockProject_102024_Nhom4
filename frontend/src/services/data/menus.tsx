@@ -30,6 +30,12 @@ const menus: MenuItem[] = [
   },
   {
     icon: <Category2 size={18} strokeWidth={2} />,
+    title: "AdminDayoff",
+    link: "/admin-dayoffs",
+    isOpen: false,
+  },
+  {
+    icon: <Category2 size={18} strokeWidth={2} />,
     title: "Dayoff",
     link: "/dayoffs",
     isOpen: false,

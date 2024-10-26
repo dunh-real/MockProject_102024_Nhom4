@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix'=>'v1/dayoffs','as'=>'v1/dayoffs.'], function() {
     Route::get('/', [DayOffController::class, 'index']);
     Route::get('/{dayOff}', [DayOffController::class, 'show']);
+    Route::get('/employee/{employeeID}', [DayOffController::class, 'showMyRequests']);
     Route::post('', [DayOffController::class, 'store']);
     Route::put('/{dayOff}', [DayOffController::class, 'update']);
     Route::delete('/{dayOff}', [DayOffController::class, 'destroy']);

@@ -8,6 +8,7 @@ const authEndPoint = api.injectEndpoints({
         url: "/auth/login",
         method: "POST",
         body,
+        // credentials: "include",
       }),
     }),
   }),

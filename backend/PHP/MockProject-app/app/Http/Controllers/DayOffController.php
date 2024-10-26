@@ -30,6 +30,12 @@ class DayOffController extends Controller
         return response()->success('The record was successfully gotten', new DayOffResource($dayOff));
     }
 
+    public function showMyRequests($employeeID, Request $request)
+    {
+        $result = $this->dayOffService->getListByEmployeeID($employeeID);
+        return DayOffResource::apiPaginate($result, $request);
+    }
+
     public function store(CreateRequest $createRequest)
     {
         try {

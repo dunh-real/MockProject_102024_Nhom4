@@ -1,14 +1,14 @@
-import { CategoryType } from "../../../types";
+import { CategoryType } from "../../../../types";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Button } from "../../../components/ui/button";
+import { Button } from "../../../../components/ui/button";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   useDeleteDayOffMutation,
   useApproveDayOffMutation,
-} from "../../../store/api/endpoints/dayOff";
+} from "../../../../store/api/endpoints/dayOff";
 import { Row } from "@tanstack/react-table";
 import {
   DropdownMenu,
@@ -17,13 +17,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../../components/ui/dropdown-menu";
-import { Checkbox } from "../../../components/ui/checkbox";
+} from "../../../../components/ui/dropdown-menu";
+import { Checkbox } from "../../../../components/ui/checkbox";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "../../../components/ui/avatar";
+} from "../../../../components/ui/avatar";
 import { Result } from "antd";
 
 // Tạo component riêng cho cell của cột actions

@@ -16,7 +16,14 @@ class DayOffService {
     public function getList() {
         return $this->model
             ->where('status', 1)
-            ->orderBy('id');
+            ->orderBy('id', 'desc');
+    }
+
+    public function getListByEmployeeID($employeeID) {
+        return $this->model
+            ->where('employee_id', $employeeID)
+            ->where('status', 1)
+            ->orderBy('id', 'desc');
     }
 
     public function create($params)

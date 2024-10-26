@@ -10,12 +10,28 @@ const dayOffApi = api.injectEndpoints({
       }),
       providesTags: ["DayOff"],
     }),
+    getEmployeeDayOffs: builder.query({
+      query: ({ id, page, page_size }) => ({
+        url: `/dayoffs/employee/${id}`,
+        method: "GET",
+        params: { page, page_size },
+      }),
+      providesTags: ["DayOff"],
+    }),
     getDayOff: builder.query({
       query: (id) => ({
         url: `/dayoffs/${id}`,
         method: "GET",
       }),
       providesTags: ["DayOff"],
+    }),
+    createDayOff: builder.mutation({
+      query: (dayOffData) => ({
+        url: "/dayoffs",
+        method: "POST",
+        body: dayOffData, // Pass the request body with day-off data
+      }),
+      invalidatesTags: ["DayOff"], // Invalidate tags to refresh data if necessary
     }),
     deleteDayOff: builder.mutation({
       query: (id) => ({
@@ -37,7 +53,9 @@ const dayOffApi = api.injectEndpoints({
 
 export const {
   useGetDayOffsQuery,
+  useGetEmployeeDayOffsQuery,
   useGetDayOffQuery,
+  useCreateDayOffMutation,
   useDeleteDayOffMutation,
   useApproveDayOffMutation,
 } = dayOffApi;

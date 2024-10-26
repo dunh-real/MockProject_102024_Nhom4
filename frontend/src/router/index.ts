@@ -5,6 +5,7 @@ import HomeRoutes from "./home";
 import DashboardRoutes from "./dashboard";
 import SettingRoutes from "./settings";
 import UserRoutes from "./users";
+import AdminDayOffRoutes from "./admin/dayOffs";
 import DayOffRoutes from "./dayOffs";
 
 const router = createBrowserRouter([
@@ -13,6 +14,7 @@ const router = createBrowserRouter([
   ...DashboardRoutes,
   ...UserRoutes,
   ...SettingRoutes,
+  ...AdminDayOffRoutes,
   ...DayOffRoutes,
   // ...ErrorRoutes,
 ]);
