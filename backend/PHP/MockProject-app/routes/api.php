@@ -37,7 +37,8 @@ Route::patch('/complaints/{id}/restore', [ComplaintController::class, 'restoreCo
 Route::post('/candidates/create', [CandidateController::class, 'addCandidatesToEmployee']); // Add candidate to employee list
 
 // Work schedule controller routes
-Route::get('/monthly/{employeeId}/{month}', [WorkScheduleController::class, 'getMonthlySchedule']);
+Route::get('/workschedules', [WorkScheduleController::class, 'getListWorkSchedule']);
+Route::get('/workschedules/monthly/{employeeId}/{month}', [WorkScheduleController::class, 'getMonthlySchedule']);
 Route::get('/details/{employeeId}/{date}', [WorkScheduleController::class, 'getScheduleDetails']);
 Route::post('/notify', [WorkScheduleController::class, 'notifyScheduleChange']);
 
@@ -45,4 +46,4 @@ Route::post('/notify', [WorkScheduleController::class, 'notifyScheduleChange']);
 Route::get('/timekeeping', [TimeKeepingController::class, 'index']);
 Route::post('/timekepping', [TimeKeepingController::class, 'store']);
 Route::put('/checkout/{id}', [TimeKeepingController::class, 'updateCheckOut']);
-Route::get('/hours/{id}', [TimeKeepingController::class, 'calculateTotalHours']);
+Route::get('/timekeeping/hours/{id}', [TimeKeepingController::class, 'calculateTotalHours']);

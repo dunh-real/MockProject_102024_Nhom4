@@ -107,7 +107,7 @@ class TimeKeepingController extends Controller
         if ($timeKeeping->check_in_time && $timeKeeping->check_out_time) {
             $checkIn = Carbon::parse($timeKeeping->check_in_time);
             $checkOut = Carbon::parse($timeKeeping->check_out_time);
-            $hoursWorked = $checkOut->diffInHours($checkIn);
+            $hoursWorked = $checkIn->diffInHours($checkOut);
 
             return response()->json(['total_hours' => $hoursWorked]);
         }

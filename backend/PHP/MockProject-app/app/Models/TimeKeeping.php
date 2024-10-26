@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class TimeKeeping extends Model
 {
     //
+    protected $table = 'TimeKeeping';
     protected $fillable = [
         'date', 
         'check_in_time', 

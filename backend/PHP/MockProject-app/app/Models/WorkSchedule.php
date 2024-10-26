@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class WorkSchedule extends Model
 {
     //
     use HasFactory;
+    protected $table = 'WorkSchedule';
 
     protected $fillable = [
         'employee_id',
