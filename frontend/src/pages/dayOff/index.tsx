@@ -16,11 +16,11 @@ const DayOff = () => {
       { title: "Day Off", link: "/dayoffs" },
     ])
   );
-  const id = 2;
+  const employee_id = 3;
   const [page, setPage] = React.useState(1); // Trang hiện tại
   const [pageSize, setPageSize] = React.useState(5); // Số lượng mục mỗi trang
   const { data, isLoading } = useGetEmployeeDayOffsQuery({
-    id,
+    id: employee_id,
     page,
     page_size: pageSize,
   });
@@ -39,6 +39,7 @@ const DayOff = () => {
       <div>
         <ToastContainer autoClose={3000} position="bottom-right" />
         <DataTable
+          id={employee_id}
           columns={columns}
           data={data?.data || []}
           page={page}

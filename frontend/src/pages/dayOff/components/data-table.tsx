@@ -42,6 +42,7 @@ import React from "react";
 import { useCreateDayOffMutation } from "../../../store/api/endpoints/dayOff";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { message } from "antd";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -49,6 +50,7 @@ interface DataTableProps<TData, TValue> {
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   totalPages: number;
+  id: number;
 }
 
 export function DataTable<TData, TValue>({
@@ -57,6 +59,7 @@ export function DataTable<TData, TValue>({
   page,
   setPage,
   totalPages,
+  id,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -87,7 +90,7 @@ export function DataTable<TData, TValue>({
 
   const [createDayOff] = useCreateDayOffMutation();
   const [formData, setFormData] = React.useState({
-    employee_id: "2",
+    employee_id: id,
     start_date: "",
     end_date: "",
     type: "",
@@ -110,7 +113,12 @@ export function DataTable<TData, TValue>({
       setOpenModal(false);
       toast.success(result.message);
     } catch (error) {
-      toast.error(result.message);
+      // setOpenModal(false);
+      const errorMessage = result ?? "An unexpected error occurred";
+      toast.error(errorMessage);
+      // console.log(formData);
+      // console.log(errorMessage);
+      // console.log(error);
     }
   };
 
@@ -171,6 +179,9 @@ export function DataTable<TData, TValue>({
                 className="mb-2 p-2 border rounded w-full"
                 required
               >
+                <option value="" hidden>
+                  Select Leave Type
+                </option>
                 <option value="sick leave">Sick Leave</option>
                 <option value="vacation leave">Vacation Leave</option>
                 <option value="other">Other</option>

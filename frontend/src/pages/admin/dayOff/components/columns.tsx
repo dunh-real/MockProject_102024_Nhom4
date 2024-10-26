@@ -36,7 +36,8 @@ const ActionCell = ({ row }: { row: Row<CategoryType> }) => {
       var result = await deleteDayOff(id).unwrap(); // Gọi hàm xóa và xử lý kết quả
       toast.success(result.message);
     } catch (error) {
-      toast.error(result.message);
+      const errorMessage = result ?? "An unexpected error occurred";
+      toast.error(errorMessage);
     }
   };
 
@@ -45,7 +46,8 @@ const ActionCell = ({ row }: { row: Row<CategoryType> }) => {
       var result = await approveDayOff({ id, is_approved: status }).unwrap(); // Gọi API approve với trạng thái mới
       toast.success(result.message);
     } catch (error) {
-      toast.error(result.message);
+      const errorMessage = result ?? "An unexpected error occurred";
+      toast.error(errorMessage);
     }
   };
 
