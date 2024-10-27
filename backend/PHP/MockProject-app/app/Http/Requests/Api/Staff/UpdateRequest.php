@@ -27,8 +27,6 @@ class UpdateRequest extends FormRequest
             'email' => [],
             'phone_number' => [],
             'avatar' => [],
-            'username' => [],
-            'password' => [],
             'role_id' => [],
         ];
     }

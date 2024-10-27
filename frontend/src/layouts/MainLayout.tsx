@@ -4,27 +4,30 @@ import AuthGuard from "../components/guard/AuthGuard";
 import SideBar from "../components/common/SideBar";
 import TopHeader from "../components/common/TopHeader";
 import { useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MainLayout: React.FC = () => {
   const isSideBarOpen = useSelector((state: any) => state.app.isSideBarOpen);
   return (
-    <AuthGuard>
-      <div className="flex">
-        <div className=" hidden lg:block">
-          <SideBar />
-        </div>
-        <main
-          className={
-            " w-full lg:px-5 px-2 " + (isSideBarOpen ? "lg:ms-60" : "lg:ms-14")
-          }
-        >
-          <TopHeader />
-          <div className=" mt-6 ">
-            <Outlet />
-          </div>
-        </main>
+    //<AuthGuard>
+    <div className="flex">
+      <div className=" hidden lg:block">
+        <SideBar />
       </div>
-    </AuthGuard>
+      <main
+        className={
+          " w-full lg:px-5 px-2 " + (isSideBarOpen ? "lg:ms-60" : "lg:ms-14")
+        }
+      >
+        <TopHeader />
+        <div className=" mt-6 ">
+          <ToastContainer autoClose={5000} position="top-right" />
+          <Outlet />
+        </div>
+      </main>
+    </div>
+    //</AuthGuard>
   );
 };
 

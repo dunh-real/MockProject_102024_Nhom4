@@ -40,6 +40,7 @@
     "react-resizable-panels": "^2.1.4",
     "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
+    "react-toastify": "^10.0.6",
     "tabler-icons-react": "^1.56.0",
     "tailwind-merge": "^2.5.3",
     "tailwindcss": "^3.4.13",

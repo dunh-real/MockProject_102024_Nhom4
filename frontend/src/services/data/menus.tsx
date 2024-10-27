@@ -30,8 +30,8 @@ const menus: MenuItem[] = [
   },
   {
     icon: <Users size={18} strokeWidth={2} />,
-    title: "Staff Management",
-    link: "/staffManagement",
+    title: "Accounts Management",
+    link: "/accounts",
     isOpen: false,
   },
   // {
@@ -80,12 +80,12 @@ const menus: MenuItem[] = [
   //   ],
   //   isOpen: false,
   // },
-  {
-    icon: <Users size={18} strokeWidth={2} />,
-    title: "Users",
-    link: "/users",
-    isOpen: false,
-  },
+  // {
+  //   icon: <Users size={18} strokeWidth={2} />,
+  //   title: "Users",
+  //   link: "/users",
+  //   isOpen: false,
+  // },
   {
     icon: <Settings2 size={18} strokeWidth={2} />,
     title: "Settings",

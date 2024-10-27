@@ -4,9 +4,9 @@ import { Outlet } from "react-router-dom";
 
 const AuthLayout: React.FC = () => {
   return (
-    <AuthGuard>
-      <Outlet />
-    </AuthGuard>
+    // <AuthGuard>
+    <Outlet />
+    //* </AuthGuard> */
   );
 };
 
