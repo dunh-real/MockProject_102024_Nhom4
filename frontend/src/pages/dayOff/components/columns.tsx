@@ -5,9 +5,11 @@ import { Button } from "../../../components/ui/button";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Input } from "../../../components/ui/input";
 import {
   useDeleteDayOffMutation,
   useApproveDayOffMutation,
+  useUpdateDayOffMutation,
 } from "../../../store/api/endpoints/dayOff";
 import { Row } from "@tanstack/react-table";
 import {
@@ -24,12 +26,39 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "../../../components/ui/avatar";
+import {
+  Dialog,
+  DialogPortal,
+  DialogOverlay,
+  DialogTrigger,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from "../../../components/ui/dialog";
 import { Result } from "antd";
+import React from "react";
 
 // Tạo component riêng cho cell của cột actions
 const ActionCell = ({ row }: { row: Row<CategoryType> }) => {
   const [deleteDayOff] = useDeleteDayOffMutation(); // Sử dụng hook trong component
-  const [approveDayOff] = useApproveDayOffMutation();
+  const [updateDayOff] = useUpdateDayOffMutation();
+
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+
+  const [formData, setFormData] = React.useState<{
+    start_date: string;
+    end_date: string;
+    type: string;
+    reason: string;
+  }>({
+    start_date: row.getValue("start_date") || "",
+    end_date: row.getValue("end_date") || "",
+    type: row.getValue("type") || "",
+    reason: row.getValue("reason") || "",
+  });
 
   const handleDelete = async (id: string) => {
     try {
@@ -41,14 +70,27 @@ const ActionCell = ({ row }: { row: Row<CategoryType> }) => {
     }
   };
 
-  const handleApprove = async (id: string, status: number) => {
+  const handleEdit = async () => {
     try {
-      var result = await approveDayOff({ id, is_approved: status }).unwrap(); // Gọi API approve với trạng thái mới
-      toast.success(result.message);
+      var result = await updateDayOff({
+        id: row.getValue("id"),
+        ...formData,
+      }).unwrap();
+      toast.success("DayOff updated successfully!");
+      setIsDialogOpen(false);
     } catch (error) {
       const errorMessage = result ?? "An unexpected error occurred";
       toast.error(errorMessage);
     }
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   return (
@@ -67,39 +109,81 @@ const ActionCell = ({ row }: { row: Row<CategoryType> }) => {
           Copy ID
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        {row.getValue("is_approved") === "2" && (
-          <>
-            <DropdownMenuItem
-              onClick={() => handleApprove(row.getValue("id"), 1)}
-            >
-              Approve
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => handleApprove(row.getValue("id"), 0)}
-            >
-              Reject
-            </DropdownMenuItem>
-          </>
-        )}
-        {row.getValue("is_approved") === "0" && (
-          <DropdownMenuItem
-            onClick={() => handleApprove(row.getValue("id"), 1)}
-          >
-            Approve
-          </DropdownMenuItem>
-        )}
-        {row.getValue("is_approved") === "1" && (
-          <DropdownMenuItem
-            onClick={() => handleApprove(row.getValue("id"), 0)}
-          >
-            Reject
-          </DropdownMenuItem>
-        )}
-        <DropdownMenuItem>View Detail</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
+          Edit
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleDelete(row.getValue("id"))}>
           Delete
         </DropdownMenuItem>
       </DropdownMenuContent>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogTitle>Edit DayOff</DialogTitle>
+          <DialogDescription>
+            Update the details for the selected day off.
+          </DialogDescription>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleEdit();
+            }}
+            className="mt-4"
+          >
+            <Input
+              type="date"
+              name="start_date"
+              placeholder="Start date"
+              value={formData.start_date}
+              onChange={handleChange}
+              className="mb-2"
+              required
+            />
+            <Input
+              type="date"
+              name="end_date"
+              placeholder="End date"
+              value={formData.end_date}
+              onChange={handleChange}
+              className="mb-2"
+              required
+            />
+            <select
+              name="type"
+              value={formData.type}
+              onChange={handleChange}
+              className="mb-2 p-2 border rounded w-full"
+              required
+            >
+              <option value="" hidden>
+                Select Leave Type
+              </option>
+              <option value="sick leave">Sick Leave</option>
+              <option value="vacation leave">Vacation Leave</option>
+              <option value="other">Other</option>
+            </select>
+            <textarea
+              name="reason"
+              placeholder="Reason"
+              value={formData.reason}
+              onChange={handleChange}
+              className="mb-4 p-2 border rounded w-full"
+              rows={6}
+            />
+
+            <div className="flex justify-end">
+              <Button type="submit" variant="default">
+                Submit
+              </Button>
+              <DialogClose asChild>
+                <Button variant="outline" className="ml-2">
+                  Cancel
+                </Button>
+              </DialogClose>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </DropdownMenu>
   );
 };

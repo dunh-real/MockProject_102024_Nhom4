@@ -19,12 +19,26 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix'=>'v1/dayoffs','as'=>'v1/dayoffs.'], function() {
-    Route::get('/', [DayOffController::class, 'index']);
-    Route::get('/{dayOff}', [DayOffController::class, 'show']);
-    Route::get('/employee/{employeeID}', [DayOffController::class, 'showMyRequests']);
+// Route::group(['prefix'=>'v1/dayoffs','as'=>'v1/dayoffs.'], function() {
+//     Route::get('/', [DayOffController::class, 'index']);
+//     Route::get('/{dayOff}', [DayOffController::class, 'show']);
+//     Route::get('/employee/{employeeID}', [DayOffController::class, 'showMyRequests']);
+//     Route::post('', [DayOffController::class, 'store']);
+//     Route::put('/{dayOff}', [DayOffController::class, 'update']);
+//     Route::delete('/{dayOff}', [DayOffController::class, 'destroy']);
+//     Route::patch('/{dayOff}', [DayOffController::class, 'restore']);
+//     Route::patch('/{dayOff}/approve', [DayOffController::class, 'approve']);
+// });
+
+Route::group(['prefix'=>'employee/dayoffs','as'=>'dayoffs.'], function() {
+    Route::get('/{employeeID}', [DayOffController::class, 'showMyRequests']);
     Route::post('', [DayOffController::class, 'store']);
     Route::put('/{dayOff}', [DayOffController::class, 'update']);
+});
+
+Route::group(['prefix'=>'admin/dayoffs','as'=>'admin/dayoffs.'], function() {
+    Route::get('/', [DayOffController::class, 'index']);
+    Route::get('/{dayOff}', [DayOffController::class, 'show']);
     Route::delete('/{dayOff}', [DayOffController::class, 'destroy']);
     Route::patch('/{dayOff}', [DayOffController::class, 'restore']);
     Route::patch('/{dayOff}/approve', [DayOffController::class, 'approve']);
