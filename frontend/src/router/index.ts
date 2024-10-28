@@ -5,6 +5,7 @@ import HomeRoutes from "./home";
 import DashboardRoutes from "./dashboard";
 import SettingRoutes from "./settings";
 import UserRoutes from "./users";
+import WorkScheduleRoutes from "./work-schedule";
 
 const router = createBrowserRouter([
     ...AuthRoutes,
@@ -12,6 +13,7 @@ const router = createBrowserRouter([
     ...DashboardRoutes,
     ...UserRoutes,
     ...SettingRoutes,
+    ...WorkScheduleRoutes,
     // ...ErrorRoutes,
 ]);
 

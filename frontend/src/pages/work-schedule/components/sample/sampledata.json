@@ -1,0 +1,57 @@
+[
+    {
+        "assignDate": "2024-10-24",
+        "assignedTo": "Alice Nguyen",
+        "status": "Pending",
+        "description": "Fix the air conditioner in the living room.",
+        "apartmentName": "AP1",
+        "apartmentAddress": "123 Sunny Heights, District 1",
+        "roomNo": "A101",
+        "startDate": "2024-10-25T09:00:00Z",
+        "dueDate": "2024-10-25T12:00:00Z"
+    },
+    {
+        "assignDate": "2024-10-23",
+        "assignedTo": "Bob Tran",
+        "status": "In Progress",
+        "description": "Check water leakage in the bathroom.",
+        "apartmentName": "AP2",
+        "apartmentAddress": "45 River View, District 7",
+        "roomNo": "B305",
+        "startDate": "2024-10-24T08:00:00Z",
+        "dueDate": "2024-10-24T10:00:00Z"
+    },
+    {
+        "assignDate": "2024-10-22",
+        "assignedTo": "Charlie Ho",
+        "status": "Completed",
+        "description": "Install new lighting in the hallway.",
+        "apartmentName": "AP3",
+        "apartmentAddress": "89 Green Gardens, District 2",
+        "roomNo": "",
+        "startDate": "2024-10-23T14:00:00Z",
+        "dueDate": "2024-10-23T16:00:00Z"
+    },
+    {
+        "assignDate": "2024-10-20",
+        "assignedTo": "David Pham",
+        "status": "Pending",
+        "description": "Inspect fire alarm system.",
+        "apartmentName": "AP2",
+        "apartmentAddress": "27 Ocean Tower, District 4",
+        "roomNo": "",
+        "startDate": "2024-10-26T09:00:00Z",
+        "dueDate": "2024-10-26T11:00:00Z"
+    },
+    {
+        "assignDate": "2024-10-19",
+        "assignedTo": "Emily Le",
+        "status": "In Progress",
+        "description": "Repair broken elevator.",
+        "apartmentName": "AP3",
+        "apartmentAddress": "102 Skyline Residences, District 5",
+        "roomNo": "",
+        "startDate": "2024-10-24T07:00:00Z",
+        "dueDate": "2024-10-24T13:00:00Z"
+    }
+]
