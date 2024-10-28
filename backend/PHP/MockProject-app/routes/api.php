@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\FineController;
 use App\Http\Controllers\Api\ResidentComplaintController;
 use Illuminate\Support\Facades\Route;
@@ -15,4 +16,9 @@ Route::group(['namespace' => 'api'], function () {
   Route::get('/fines', [FineController::class, 'getFines']);
   Route::get('/resident-fines/{id}', [FineController::class, 'getResidentFines']);
   Route::post('/pay-fine/{fineId}', [FineController::class, 'payFine']);
+
+  // Employee (Staff) Management API
+  Route::get('/employee/{id}', [EmployeeController::class, 'show']);
+  Route::put('/update-employee/{id}', [EmployeeController::class, 'update']);
+  Route::get('/employee/{id}/contract', [EmployeeController::class, 'showContract']);
 });

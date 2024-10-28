@@ -24,4 +24,9 @@ class Employee extends Model
     'password',
     'role_id',
   ];
+
+  public function contracts()
+  {
+    return $this->hasMany(EmployeeContract::class, 'employee_id');
+  }
 }
