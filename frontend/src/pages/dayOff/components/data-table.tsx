@@ -121,6 +121,165 @@ export function DataTable<TData, TValue>({
     }
   };
 
+  const renderPageNumbers = () => {
+    let pageButtons = [];
+
+    if (totalPages <= 4) {
+      for (let i = 1; i <= totalPages; i++) {
+        pageButtons.push(
+          <Button
+            key={i}
+            variant={"outline"}
+            size="lg"
+            onClick={() => setPage(i)}
+            style={{
+              fontWeight: page === i ? "bold" : "normal",
+              backgroundColor: page === i ? "#ff7f1d" : "transparent",
+              color: page === i ? "#fff" : "#000",
+            }}
+          >
+            {i}
+          </Button>
+        );
+      }
+    } else {
+      if (page <= 4) {
+        for (let i = 1; i <= 4; i++) {
+          pageButtons.push(
+            <Button
+              key={i}
+              variant={"outline"}
+              size="lg"
+              onClick={() => setPage(i)}
+              style={{
+                fontWeight: page === i ? "bold" : "normal",
+                backgroundColor: page === i ? "#ff7f1d" : "transparent",
+                color: page === i ? "#fff" : "#000",
+              }}
+            >
+              {i}
+            </Button>
+          );
+        }
+        pageButtons.push(
+          <Button key="dots-start" variant="outline" size="lg">
+            ...
+          </Button>
+        );
+
+        pageButtons.push(
+          <Button
+            key={totalPages}
+            variant={"outline"}
+            size="lg"
+            onClick={() => setPage(totalPages)}
+          >
+            {totalPages}
+          </Button>
+        );
+      }
+      if (page > 4 && page < totalPages - 2) {
+        pageButtons.push(
+          <Button
+            key={1}
+            variant={"outline"}
+            size="lg"
+            onClick={() => setPage(1)}
+            style={{
+              fontWeight: page === 1 ? "bold" : "normal",
+              backgroundColor: page === 1 ? "#ff7f1d" : "transparent",
+              color: page === 1 ? "#fff" : "#000",
+            }}
+          >
+            1
+          </Button>
+        );
+        pageButtons.push(
+          <Button key="dots-startt" variant="outline" size="lg">
+            ...
+          </Button>
+        );
+
+        for (let i = page - 1; i <= page + 1; i++) {
+          pageButtons.push(
+            <Button
+              key={i}
+              variant={"outline"}
+              size="lg"
+              onClick={() => setPage(i)}
+              style={{
+                fontWeight: page === i ? "bold" : "normal",
+                backgroundColor: page === i ? "#ff7f1d" : "transparent",
+                color: page === i ? "#fff" : "#000",
+              }}
+            >
+              {i}
+            </Button>
+          );
+        }
+
+        pageButtons.push(
+          <Button key="dots-start" variant="outline" size="lg">
+            ...
+          </Button>
+        );
+
+        pageButtons.push(
+          <Button
+            key={totalPages}
+            variant={"outline"}
+            size="lg"
+            onClick={() => setPage(totalPages)}
+          >
+            {totalPages}
+          </Button>
+        );
+      }
+      if (page >= totalPages - 2 && page <= totalPages) {
+        pageButtons.push(
+          <Button
+            key={1}
+            variant={"outline"}
+            size="lg"
+            onClick={() => setPage(1)}
+            style={{
+              fontWeight: page === 1 ? "bold" : "normal",
+              backgroundColor: page === 1 ? "#ff7f1d" : "transparent",
+              color: page === 1 ? "#fff" : "#000",
+            }}
+          >
+            1
+          </Button>
+        );
+        pageButtons.push(
+          <Button key="dots-start" variant="outline" size="lg">
+            ...
+          </Button>
+        );
+
+        for (let i = totalPages - 2; i <= totalPages; i++) {
+          pageButtons.push(
+            <Button
+              key={i}
+              variant={"outline"}
+              size="lg"
+              onClick={() => setPage(i)}
+              style={{
+                fontWeight: page === i ? "bold" : "normal",
+                backgroundColor: page === i ? "#ff7f1d" : "transparent",
+                color: page === i ? "#fff" : "#000",
+              }}
+            >
+              {i}
+            </Button>
+          );
+        }
+      }
+    }
+
+    return pageButtons;
+  };
+
   return (
     <>
       <div className="flex items-center py-4">
@@ -291,18 +450,16 @@ export function DataTable<TData, TValue>({
         <div className="flex items-center justify-end space-x-2 py-4">
           <Button
             variant="outline"
-            size="sm"
+            size="lg"
             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
             disabled={page === 1}
           >
             Previous
           </Button>
-          <span>
-            Page {page} of {totalPages}
-          </span>
+          {renderPageNumbers()}
           <Button
             variant="outline"
-            size="sm"
+            size="lg"
             onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={page === totalPages}
           >
