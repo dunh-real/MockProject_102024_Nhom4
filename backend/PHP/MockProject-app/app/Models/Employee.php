@@ -2,19 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
+// Thêm dòng này
 
-class Employee extends Model
+class Employee extends Authenticatable
 {
-    //
-    use HasFactory;
-    protected $table = 'Employee'; // Specify the name of the database table that this model is associated with
-    public $timestamps = false;
+    use HasApiTokens, HasFactory, Notifiable;
 
-    // protected $fillable = [
-    //     'id', 'category_id', 'description', 'image', 'price', 'stock',
-    // ];
+    protected $table = 'Employee'; // Bảng Employee
+    protected $fillable = ['id', 'name', 'birth_date', 'email', 'phone_number', 'avatar', 'username', 'password', 'role_id', 'status'];
+
+    public $timestamps = false;
     protected $guarded = [];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+        return $this->morphOne(Role::class, 'roleable');
+    }
 }
