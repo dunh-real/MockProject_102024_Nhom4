@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { saveUserInfo } from "../../store/slice/auth";
 import InputPassword from "../../components/custom/input-password";
-import { SignInType } from "@/types";
+import { SignInType } from "../../types";
 // import Logo from "./components/logo";
 // import MobileLogo from "./components/mobile-logo";
 //import { useTheme } from "@/services/providers/theme-provider";

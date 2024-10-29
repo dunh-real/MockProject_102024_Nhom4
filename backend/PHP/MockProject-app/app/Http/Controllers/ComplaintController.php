@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Complaint;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
 class ComplaintController extends Controller
 {
 

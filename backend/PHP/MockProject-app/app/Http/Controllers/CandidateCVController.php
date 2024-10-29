@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cv;
-use Illuminate\Http\Request;
+
 
 class CandidateCVController extends Controller
 {
