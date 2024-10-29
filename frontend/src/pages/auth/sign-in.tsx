@@ -20,11 +20,6 @@ const SignIn: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const initialValues: SignInType = {
-        email: "john@mail.com",
-        password: "changeme",
-    };
-
     const handleSubmit = async (values: SignInType, action: any) => {
         await signIn(values);
         data.isSuccess && action.resetForm();
@@ -50,7 +45,7 @@ const SignIn: React.FC = () => {
                     {/* <MobileLogo /> */}
                     <div className="text-2xl mb-6">Sign In</div>
                     <Formik
-                        initialValues={initialValues}
+                        initialValues={{ email: "", password: "" }}
                         validationSchema={signInSchema}
                         onSubmit={handleSubmit}
                     >
