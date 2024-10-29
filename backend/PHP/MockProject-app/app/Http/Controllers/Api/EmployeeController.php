@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
+use App\Models\EmployeeContract;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -65,7 +66,7 @@ class EmployeeController extends Controller
         'message' => 'Employee or contract not found'
       ], Response::HTTP_NOT_FOUND);
     }
-
+   
     return response()->json([
       'success' => true,
       'data' => $employee->contract

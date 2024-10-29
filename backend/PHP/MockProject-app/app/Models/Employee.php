@@ -9,7 +9,7 @@ class Employee extends Model
 {
   use HasFactory;
 
-  protected $table = 'employees'; // Table name
+  protected $table = 'Employee'; // Table name
   protected $primaryKey = 'id';   // Primary key
   public $timestamps = false;     // Disable timestamps
 
@@ -25,8 +25,9 @@ class Employee extends Model
     'role_id',
   ];
 
-  public function contracts()
+  public function contract()
   {
-    return $this->hasMany(EmployeeContract::class, 'employee_id');
+    return $this->hasOne(EmployeeContract::class, 'employee_id');
   }
+
 }

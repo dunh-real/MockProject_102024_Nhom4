@@ -24,4 +24,10 @@ class EmployeeContract extends Model
   {
     return $this->belongsTo(Employee::class, 'employee_id');
   }
+
+  // public function contract()
+  // {
+  //   return $this->hasOne(EmployeeContract::class, 'employee_id');
+  // }
+
 }
