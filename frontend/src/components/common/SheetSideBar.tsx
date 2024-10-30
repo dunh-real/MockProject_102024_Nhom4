@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Card, CardContent } from "../ui/card";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
 import { LetterI, ChevronUp, ChevronDown } from "tabler-icons-react";
-import menusList from "../../services/data/menus";
+import { getMenusByRole } from "../../services/data/menus"; // Import the menu function
 import { useLocation, useNavigate } from "react-router";
 import { MenuItemType } from "../../types";
 import { PiBuildingApartment } from "react-icons/pi"; // Import the house icon
 
 const SheetSideBar: React.FC = () => {
-    const [menus, setMenus] = useState<MenuItemType[]>(menusList);
+    const role = useSelector((state: any) => state.auth.role); // Get role from state
+    const menus = getMenusByRole(role); // Get menus based on role
+    console.log("Menus for Role:", role, menus); // Log the menus
+    const [menuState, setMenuState] = useState<MenuItemType[]>(menus); // State for menus
     const navigate = useNavigate();
     const { pathname } = useLocation();
 
     const handleOpenDropDownSideBar = (index: number) => {
-        const updatedMenus = [...menus];
+        const updatedMenus = [...menuState];
         updatedMenus[index].isOpen = !updatedMenus[index].isOpen;
-        setMenus(updatedMenus);
+        setMenuState(updatedMenus);
     };
 
     const handleNavigate = (menu: MenuItemType) => {
@@ -45,11 +49,12 @@ const SheetSideBar: React.FC = () => {
             <CardContent className="shadow-none m-0 p-0 focus-visible:outline-none">
                 <div className="w-full h-screen overflow-y-auto rounded-none shadow-none border-e dark:border-foreground">
                     <div className="flex flex-col text-white">
+                        {/* Retaining the MOCK CARE header */}
                         <div className="flex items-center gap-2 p-4">
                             <PiBuildingApartment size={18} />
                             <span className="text-2xl font-medium">MOCK CARE</span>
                         </div>
-                        {menus?.map((menu, index) => (
+                        {menuState?.map((menu, index) => (
                             <React.Fragment key={index}>
                                 {menu.children ? (
                                     <Collapsible className="flex flex-col items-start">

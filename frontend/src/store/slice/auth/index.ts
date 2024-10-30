@@ -3,10 +3,12 @@ import { setCookie, removeCookie } from "typescript-cookie";
 
 export interface InitialStateType {
     token: string;
+    role: string;
 };
 
 const initialState: InitialStateType = {
     token: "",
+    role: ""
 };
 
 export const authSlice = createSlice({
@@ -14,17 +16,23 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         saveUserInfo: (state: InitialStateType, action) => {
-            const { token } = action.payload;
+            console.log("Reducer called with action:", action); // Log the action
+            const { token, role } = action.payload;
             state.token = token;
-            setCookie("token", token);
+            state.role = role;
+            setCookie("token", token, { path: '/' });
+            setCookie("role", role, { path: '/' });
         },
         removeUserInfo: (state: InitialStateType) => {
             state.token = "";
+            state.role = "";
             removeCookie("token");
+            removeCookie("role");
         },
     },
 });
 
 export const token = (state: InitialStateType) => state.token;
+export const role = (state: InitialStateType) => state.role;
 export const { saveUserInfo, removeUserInfo } = authSlice.actions;
 export default authSlice.reducer;

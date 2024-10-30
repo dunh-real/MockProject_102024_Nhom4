@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "../../components/ui/card";
-import menusList from "../../services/data/menus";
+import { getMenusByRole } from "../../services/data/menus";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import {
@@ -14,8 +14,12 @@ import {
 } from "../ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { PiBuildingApartment } from "react-icons/pi"; // Import the house icon
+import { useSelector } from "react-redux";
 
 const IconSidebar: React.FC = () => {
+    const role = useSelector((state: any) => state.auth.role);
+    const menus = getMenusByRole(role);
+    console.log("Menus for Role:", role, menus);
     const { pathname } = useLocation();
 
     return (
@@ -24,7 +28,7 @@ const IconSidebar: React.FC = () => {
                 <div className="flex items-center gap-2 p-4">
                     <PiBuildingApartment size={18} />
                 </div>
-                {menusList?.map((menu: any, index) => (
+                {menus?.map((menu: any, index) => (
                     <React.Fragment key={index}>
                         {menu.children ? (
                             <Tooltip delayDuration={100}>

@@ -9,6 +9,7 @@ import { ChildrenType } from "../../types";
 
 const AuthGuardComponent: React.FC<ChildrenType> = ({ children }) => {
     const token = useSelector((state: any) => state?.auth?.token);
+    const role = useSelector((state: any) => state?.auth?.role);
     const location = useLocation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -25,7 +26,9 @@ const AuthGuardComponent: React.FC<ChildrenType> = ({ children }) => {
             navigate("/landing");
             dispatch(removeUserInfo());
         } else {
-            dispatch(saveUserInfo({ token: getCookie("token") }));
+            const userRole = role; // Get the role from state
+            console.log("User Role:", userRole); // Log the role
+            dispatch(saveUserInfo({ token: getCookie("token"), role: userRole }));
             // Redirect Back Home if Auth Layout
             if (
                 location.pathname === "/auth/sign-in" ||
@@ -38,7 +41,7 @@ const AuthGuardComponent: React.FC<ChildrenType> = ({ children }) => {
 
     useEffect(() => {
         checkAuth();
-    }, [token]);
+    }, [token, role]);
 
     return <div>{children}</div>;
 };
