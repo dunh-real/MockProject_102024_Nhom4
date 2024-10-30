@@ -21,7 +21,7 @@ const EmployeeContractRoutes: RouteObject[] = [
                 element: <CreateEmployeeContract />,
             },
             {
-                path: "details",
+                path:"details/:id",
                 element: <EmployeeContractDetails />,
             },
         ],

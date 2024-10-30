@@ -1,69 +1,51 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { EmployeeContract } from "../../types/employee-contracts";
-import { LoadingLottie } from "../../components"; // Import loading animation if needed
-import {
-  useGetEmployeeContractByIdQuery,
-  useUpdateEmployeeContractMutation,
-} from "../../store/api/endpoints/employeeContractApi";
+import { LoadingLottie } from "../../components";
 import { Button } from "../../components/ui/button";
 
 const EmployeeContractDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  // Fetch contract data using the ID from the URL
-  const {
-    data: contract,
-    isLoading,
-    isError,
-  } = useGetEmployeeContractByIdQuery(Number(id));
-  const [updateEmployeeContract] = useUpdateEmployeeContractMutation();
+  // Fake contract data for testing
+  const fakeContract: EmployeeContract = {
+    id: Number(id),
+    start_date: "2024-01-01",
+    end_date: "2024-12-31",
+    position: "Software Engineer",
+    employee_id: 101,
+  };
 
-  // Local state to manage form data
-  const [formData, setFormData] = useState<EmployeeContract>({
-    id: 0,
-    start_date: "",
-    end_date: "",
-    position: "",
-    employee_id: 0,
-  });
+  // Initialize form data with fake data
+  const [formData, setFormData] = useState<EmployeeContract>(fakeContract);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
+  // Update form data if fakeContract changes
   useEffect(() => {
-    if (contract) {
-      setFormData(contract); // Initialize form data with fetched contract data
-    }
-  }, [contract]);
+    setFormData(fakeContract);
+  }, [fakeContract]);
 
   // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (formData) {
-      setFormData({
-        ...formData,
-        [name]: name === "employee_id" || name === "id" ? Number(value) : value,
-      });
-    }
+    setFormData({
+      ...formData,
+      [name]: name === "employee_id" || name === "id" ? Number(value) : value,
+    });
   };
 
   // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData) {
-      try {
-        await updateEmployeeContract({
-          id: formData.id,
-          contract: formData as EmployeeContract,
-        }).unwrap();
-        navigate("/employee-contracts"); // Redirect to the contracts page after update
-      } catch (error) {
-        console.error("Failed to update contract:", error);
-      }
-    }
+    setSuccessMessage("Update contract successfully!"); // Set success message
+    setTimeout(() => {
+      // navigate("/employee-contracts");
+    }, 2000);
   };
 
   // Display loading indicator
-  if (isLoading) {
+  if (!formData) {
     return (
       <div className="flex justify-center pt-10">
         <div className="w-[250px]">
@@ -73,21 +55,17 @@ const EmployeeContractDetails: React.FC = () => {
     );
   }
 
-  // Display error if loading contract data fails
-  if (isError || !formData) {
-    return <div>Failed to load contract details.</div>;
-  }
-
-  // Render form to view and update contract details
   return (
     <div className="max-w-md mx-auto mt-10">
       <h1 className="text-2xl font-bold mb-4">Employee Contract Details</h1>
+      {successMessage && (
+        <div className="p-4 mb-4 text-green-700 bg-green-100 rounded">
+          {successMessage}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label
-            htmlFor="position"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="position" className="block text-sm font-medium text-gray-700">
             Position
           </label>
           <input
@@ -100,10 +78,7 @@ const EmployeeContractDetails: React.FC = () => {
           />
         </div>
         <div>
-          <label
-            htmlFor="start_date"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="start_date" className="block text-sm font-medium text-gray-700">
             Start Date
           </label>
           <input
@@ -116,10 +91,7 @@ const EmployeeContractDetails: React.FC = () => {
           />
         </div>
         <div>
-          <label
-            htmlFor="end_date"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="end_date" className="block text-sm font-medium text-gray-700">
             End Date
           </label>
           <input
@@ -132,10 +104,7 @@ const EmployeeContractDetails: React.FC = () => {
           />
         </div>
         <div>
-          <label
-            htmlFor="employee_id"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="employee_id" className="block text-sm font-medium text-gray-700">
             Employee ID
           </label>
           <input

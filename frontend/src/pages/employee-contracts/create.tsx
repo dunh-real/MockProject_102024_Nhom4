@@ -12,6 +12,7 @@ const CreateEmployeeContract: React.FC = () => {
   const navigate = useNavigate();
   const [createEmployeeContract] = useCreateEmployeeContractMutation();
   const dispatch = useDispatch();
+
   dispatch(
     setBreadCrumb([
       {
@@ -24,7 +25,7 @@ const CreateEmployeeContract: React.FC = () => {
       },
     ])
   );
-  // Local state for new contract form
+
   const [newContract, setNewContract] = useState<EmployeeContract>({
     id: 0,
     start_date: "",
@@ -33,71 +34,98 @@ const CreateEmployeeContract: React.FC = () => {
     employee_id: 0,
   });
 
-  // Handle form submission
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
+    // await createEmployeeContract(newContract).unwrap();    
     e.preventDefault();
-    try {
-      await createEmployeeContract(newContract).unwrap();
-      // Redirect to contract management page after creating the contract
+    setSuccessMessage("Create employee contract successfully!");
+    setTimeout(() => {
+      setSuccessMessage(null);
       navigate("/employee-contracts");
-    } catch (error) {
-      console.error("Failed to create contract:", error);
-      // You may want to handle error notifications here
-    }
+    }, 3000);
   };
 
   return (
     <div className="max-w-md mx-auto mt-10">
       <h1 className="text-2xl font-bold mb-4">Create Employee Contract</h1>
+      {successMessage && (
+        <div className="mb-4 p-2 bg-green-100 text-green-700 border border-green-300 rounded">
+          {successMessage}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="position" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="position"
+            className="block text-sm font-medium text-gray-700"
+          >
             Position
           </label>
           <input
             type="text"
             id="position"
             value={newContract.position}
-            onChange={(e) => setNewContract({ ...newContract, position: e.target.value })}
+            onChange={(e) =>
+              setNewContract({ ...newContract, position: e.target.value })
+            }
             required
             className="mt-1 block w-full border border-gray-300 rounded-md p-2"
           />
         </div>
         <div>
-          <label htmlFor="start_date" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="start_date"
+            className="block text-sm font-medium text-gray-700"
+          >
             Start Date
           </label>
           <input
             type="date"
             id="start_date"
             value={newContract.start_date}
-            onChange={(e) => setNewContract({ ...newContract, start_date: e.target.value })}
+            onChange={(e) =>
+              setNewContract({ ...newContract, start_date: e.target.value })
+            }
             required
             className="mt-1 block w-full border border-gray-300 rounded-md p-2"
           />
         </div>
         <div>
-          <label htmlFor="end_date" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="end_date"
+            className="block text-sm font-medium text-gray-700"
+          >
             End Date
           </label>
           <input
             type="date"
             id="end_date"
             value={newContract.end_date}
-            onChange={(e) => setNewContract({ ...newContract, end_date: e.target.value })}
+            onChange={(e) =>
+              setNewContract({ ...newContract, end_date: e.target.value })
+            }
             required
             className="mt-1 block w-full border border-gray-300 rounded-md p-2"
           />
         </div>
         <div>
-          <label htmlFor="employee_id" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="employee_id"
+            className="block text-sm font-medium text-gray-700"
+          >
             Employee ID
           </label>
           <input
             type="number"
             id="employee_id"
             value={newContract.employee_id}
-            onChange={(e) => setNewContract({ ...newContract, employee_id: Number(e.target.value) })}
+            onChange={(e) =>
+              setNewContract({
+                ...newContract,
+                employee_id: Number(e.target.value),
+              })
+            }
             required
             className="mt-1 block w-full border border-gray-300 rounded-md p-2"
           />

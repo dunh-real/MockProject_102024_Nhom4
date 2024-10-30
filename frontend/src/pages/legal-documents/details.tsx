@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { LeaseContractType } from "../../types/legal-documents";
 import { Button } from "../../components/ui/button";
@@ -13,30 +11,39 @@ import {
   CardTitle,
 } from "../../components/ui/card";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../../components/ui/dialog";
-import { AlertCircle, CheckCircle2 } from "lucide-react";
+  useUpdateLeaseContractMutation,
+  useDeleteLeaseContractMutation,
+} from "../../store/api/endpoints/legal-documents";
+import { useNavigate } from "react-router-dom";
 
-const LeaseContractDetails: React.FC = ( id ) =>{
+const LeaseContractDetails: React.FC = (id) => {
   const [contract, setContract] = useState<LeaseContractType | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); 
+  const [updateLeaseContract] = useUpdateLeaseContractMutation();
+  const [deleteLeaseContract] = useDeleteLeaseContractMutation();
   const [isEditing, setIsEditing] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [feedback, setFeedback] = useState<{
-    type: "success" | "error";
-    message: string;
-  } | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchContract();
   }, [id]);
 
   const fetchContract = async () => {
+    // Fake data for testing purposes
+    const fakeContract: LeaseContractType = {
+      ID: 123, // Use the id passed as prop
+      start_date: "2024-01-01",
+      end_date: "2025-01-01",
+      rent_price: 1200.0,
+      status: "Active",
+      apartment_id: 101,
+      resident_id: 201,
+      employee_id: 301,
+    };
+
+    // Uncomment the following lines to fetch from API instead of using fake data
+    /*
     try {
       const response = await fetch(`/api/staff/lease-contracts/${id}`);
       if (!response.ok) throw new Error("Failed to fetch contract");
@@ -49,48 +56,62 @@ const LeaseContractDetails: React.FC = ( id ) =>{
         message: "Failed to fetch lease contract details.",
       });
     }
+    */
+
+    // Set the fake contract
+    setContract(fakeContract);
   };
 
   const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!contract) return;
+    setSuccessMessage("Lease contract updated successfully!");
+    setTimeout(() => {
+      setSuccessMessage("");
+      setErrorMessage(null);
+      // navigate("/legal-documents");
+    }, 3000);
     try {
-      const response = await fetch(`/api/staff/lease-contracts/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(contract),
-      });
-      if (!response.ok) throw new Error("Failed to update contract");
-      setFeedback({
-        type: "success",
-        message: "Lease contract updated successfully.",
-      });
+      // await updateLeaseContract({ id: contract.ID, contract }).unwrap();
       setIsEditing(false);
-    } catch (error) {
-      console.error("Error updating contract:", error);
-      setFeedback({
-        type: "error",
-        message: "Failed to update lease contract.",
-      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage('An unknown error occurred');
+      }
     }
   };
 
   const handleDelete = async () => {
-    try {
-      const response = await fetch(`/api/staff/lease-contracts/${id}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) throw new Error("Failed to delete contract");
-      setFeedback({
-        type: "success",
-        message: "Lease contract deleted successfully.",
-      });
-    } catch (error) {
-      console.error("Error deleting contract:", error);
-      setFeedback({
-        type: "error",
-        message: "Failed to delete lease contract.",
-      });
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this contract?"
+    );
+    if (confirmed) {
+      setSuccessMessage("Lease contract updated successfully!");
+      setErrorMessage("");
+      setTimeout(() => {
+        setSuccessMessage("");
+        navigate("/legal-documents");
+      }, 3000);
+      // try {
+      //   if (contract && contract.ID) {
+      //     console.log("Deleting contract with ID:", contract.ID);
+      //     await deleteLeaseContract(contract.ID).unwrap();
+      //     setSuccessMessage("Lease contract updated successfully!");
+      //     setErrorMessage("");
+      //   } else {
+      //     // Handle case when contract is null
+      //     setErrorMessage("Contract ID is not defined.");
+      //     setSuccessMessage("");
+      //   }
+      // } catch (error: unknown) {
+      //   if (error instanceof Error) {
+      //     setErrorMessage(error.message);
+      //   } else {
+      //     setErrorMessage('An unknown error occurred');
+      //   }
+      // }
     }
   };
 
@@ -98,30 +119,21 @@ const LeaseContractDetails: React.FC = ( id ) =>{
 
   return (
     <>
-      {feedback && (
-        <div
-          className={`mb-4 p-4 rounded-md ${
-            feedback.type === "success"
-              ? "bg-green-100 text-green-800"
-              : "bg-red-100 text-red-800"
-          }`}
-        >
-          <div className="flex items-center">
-            {feedback.type === "success" ? (
-              <CheckCircle2 className="h-5 w-5 mr-2" />
-            ) : (
-              <AlertCircle className="h-5 w-5 mr-2" />
-            )}
-            <span className="font-semibold">
-              {feedback.type === "success" ? "Success" : "Error"}
-            </span>
-          </div>
-          <p className="mt-1">{feedback.message}</p>
+      {successMessage && (
+        <div className="w-full max-w-2xl mx-auto m-4 p-2 bg-green-100 text-green-700 border border-green-300 rounded">
+          {successMessage}
+        </div>
+      )}
+      {errorMessage && ( // Add error message display
+        <div className="w-full max-w-2xl mx-auto m-4 p-2 bg-red-100 text-red-700 border border-red-300 rounded">
+          {errorMessage}
         </div>
       )}
       <Card className="w-full max-w-2xl mx-auto">
         <CardHeader>
-          <CardTitle>Lease Contract Details</CardTitle>
+          <CardTitle className="text-3xl flex items-center justify-center">
+            Lease Contract Details
+          </CardTitle>
         </CardHeader>
         <CardContent>
           {isEditing ? (
@@ -258,38 +270,15 @@ const LeaseContractDetails: React.FC = ( id ) =>{
           {!isEditing && (
             <>
               <Button onClick={() => setIsEditing(true)}>Edit</Button>
-              <Dialog open={isDeleting} onOpenChange={setIsDeleting}>
-                <DialogTrigger asChild>
-                  <Button variant="destructive">Delete</Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>
-                      Are you sure you want to delete this lease contract?
-                    </DialogTitle>
-                    <DialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      the lease contract.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                    <Button
-                      variant="outline"
-                      onClick={() => setIsDeleting(false)}
-                    >
-                      Cancel
-                    </Button>
-                    <Button variant="destructive" onClick={handleDelete}>
-                      Delete
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+              <Button variant="destructive" onClick={handleDelete}>
+                Delete
+              </Button>
             </>
           )}
         </CardFooter>
       </Card>
     </>
   );
-}
+};
+
 export default LeaseContractDetails;

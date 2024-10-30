@@ -5,6 +5,7 @@ import {
     getCoreRowModel,
     getPaginationRowModel,
     getSortedRowModel,
+    getFilteredRowModel, // Thêm getFilteredRowModel
     SortingState,
 } from "@tanstack/react-table";
 import {
@@ -25,8 +26,8 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
-    // Define sorting state properly
-    const [sorting, setSorting] = useState<SortingState>([]); // Ensure this is of type SortingState
+    const [sorting, setSorting] = useState<SortingState>([]);
+    const [globalFilter, setGlobalFilter] = useState(""); // State cho tìm kiếm
 
     const table = useReactTable({
         data,
@@ -34,8 +35,13 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
-        onSortingChange: setSorting, // Ensure this setter is compatible
-        state: { sorting }, // Use the correct sorting state here
+        getFilteredRowModel: getFilteredRowModel(), // Thêm bộ lọc
+        onSortingChange: setSorting,
+        state: {
+            sorting,
+            globalFilter, // Thêm vào state của bảng
+        },
+        onGlobalFilterChange: setGlobalFilter, // Cập nhật giá trị tìm kiếm toàn cục
     });
 
     return (
@@ -43,8 +49,8 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Filter position..."
-                    value={(table.getColumn("position")?.getFilterValue() as string) ?? ""}
-                    onChange={(e) => table.getColumn("position")?.setFilterValue(e.target.value)}
+                    value={globalFilter} // Sử dụng giá trị globalFilter
+                    onChange={(e) => setGlobalFilter(e.target.value)} // Cập nhật globalFilter khi thay đổi
                     className="max-w-sm"
                 />
             </div>
@@ -55,7 +61,9 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
                                     <TableHead key={header.id}>
-                                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                                        {header.isPlaceholder
+                                            ? null
+                                            : flexRender(header.column.columnDef.header, header.getContext())}
                                     </TableHead>
                                 ))}
                             </TableRow>
@@ -82,10 +90,18 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                     </TableBody>
                 </Table>
                 <div className="flex items-center justify-end space-x-2 py-4">
-                    <Button variant="outline" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+                    <Button
+                        variant="outline"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
                         Previous
                     </Button>
-                    <Button variant="outline" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+                    <Button
+                        variant="outline"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
                         Next
                     </Button>
                 </div>

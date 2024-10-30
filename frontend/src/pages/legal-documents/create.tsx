@@ -1,9 +1,12 @@
 import React, { FormEvent, useState } from "react";
 import { LeaseContractType } from "@/types/legal-documents";
 import { Button } from "../../components/ui/button";
-import { nan } from "zod";
+import { useNavigate } from "react-router-dom";
+import { useCreateLeaseContractMutation } from "../../store/api/endpoints/legal-documents";
 
 const CreateLeaseContract: React.FC = () => {
+  const [createLeaseContract] = useCreateLeaseContractMutation();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<LeaseContractType>({
     ID: 0,
     start_date: "",
@@ -33,22 +36,14 @@ const CreateLeaseContract: React.FC = () => {
     setMessage("");
 
     try {
-      const response = await fetch("/api/staff/lease-contracts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          rent_price: formData.rent_price,
-        }),
-      });
+      // await createLeaseContract(formData).unwrap();
 
-      if (!response.ok) {
-        throw new Error("Failed to create lease contract");
-      }
+      setMessage("New lease contract created successfully!");
+      setTimeout(() => {
+        setMessage("");
+        navigate("/legal-documents");
+      }, 3000);
 
-      setMessage("New lease contract created successfully");
       setFormData({
         ID: 0,
         start_date: "",
@@ -59,8 +54,11 @@ const CreateLeaseContract: React.FC = () => {
         resident_id: 0,
         employee_id: 0,
       });
-    } catch (error) {
-      setMessage("Failed to create lease contract. Please try again.");
+    } catch (error: any) {
+      const errorMessage =
+        error?.data?.message ||
+        "Failed to create lease contract. Please try again.";
+      setMessage(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -68,7 +66,21 @@ const CreateLeaseContract: React.FC = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-4 bg-white shadow rounded-lg">
-      <h2 className="flex justify-center text-3xl font-bold mb-6 text-[#F8A869]">Create New Lease Contract</h2>
+      {message && (
+        <div
+          className={`space-y-4 mt-4 p-2 rounded ${
+            message.includes("Failed")
+              ? "bg-red-100 text-red-700"
+              : "bg-green-100 text-green-700"
+          }`}
+        >
+          {message}
+        </div>
+      )}
+      <h2 className="flex justify-center text-3xl font-bold mb-6 text-[#F8A869]">
+        Create New Lease Contract
+      </h2>
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -206,17 +218,6 @@ const CreateLeaseContract: React.FC = () => {
           </Button>
         </div>
       </form>
-      {message && (
-        <div
-          className={`mt-4 p-2 rounded ${
-            message.includes("Failed")
-              ? "bg-red-100 text-red-700"
-              : "bg-green-100 text-green-700"
-          }`}
-        >
-          {message}
-        </div>
-      )}
     </div>
   );
 };

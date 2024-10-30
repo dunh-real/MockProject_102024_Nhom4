@@ -17,14 +17,14 @@ const contractApi = api.injectEndpoints({
       }),
     }),
     updateLeaseContract: builder.mutation({
-      query: ({ id, contract }: { id: string; contract: LeaseContractType }) => ({
+      query: ({ id, contract }: { id: number; contract: LeaseContractType }) => ({
         url: `/api/staff/lease-contracts/update/${id}`, // Update URL
         method: "PUT",
         body: contract,
       }),
     }),
     deleteLeaseContract: builder.mutation({
-      query: (id: string) => ({
+      query: (id: number) => ({
         url: `/api/staff/lease-contracts/delete/${id}`, // Delete URL
         method: "DELETE",
       }),
@@ -32,4 +32,4 @@ const contractApi = api.injectEndpoints({
   }),
 });
 
-export const { useCreateLeaseContractMutation } = contractApi;
+export const { useCreateLeaseContractMutation, useUpdateLeaseContractMutation, useDeleteLeaseContractMutation } = contractApi;
