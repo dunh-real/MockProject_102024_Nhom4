@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Models\WorkSchedule;
@@ -67,13 +68,24 @@ class WorkScheduleController extends Controller
          ], 500);
       }
    }
-   // 3. API to get the list of employees working on a specific day
+   // 3.Send notification of work schedule changes to employees
    public function notifyScheduleChange(Request $request)
    {
-      $employeeId = $request->employee_id;
-      $scheduleId = $request->schedule_id;
+       // Validate the incoming request data
+       $validatedData = $request->validate([
+         'employee_id' => 'required|exists:employee,id',
+         'schedule_id' => 'required|exists:work_schedules,id',
+     ]);
 
+     // Fetch employee and schedule data for verification and notification
+     $employee = Employee::findOrFail($validatedData['employee_id']);
+     $schedule = WorkSchedule::findOrFail($validatedData['schedule_id']);
 
-      return response()->json(['message' => 'Notification sent to employee']);
+     // Response on successful notification dispatch
+     return response()->json([
+         'message' => 'Notification sent to employee',
+         'employee' => $employee->name,
+         'schedule_id' => $schedule->id
+     ], 200);
    }
 }

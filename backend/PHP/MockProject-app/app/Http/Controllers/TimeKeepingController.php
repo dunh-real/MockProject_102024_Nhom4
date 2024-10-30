@@ -40,6 +40,7 @@ class TimeKeepingController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * Create a new timekeeping record
      */
     public function store(Request $request)
     {
@@ -87,7 +88,7 @@ class TimeKeepingController extends Controller
     {
         //
     }
-    //Update check-in time
+    //Update check-out time
     public function updateCheckOut(Request $request, $id)
     {
         $request->validate([
